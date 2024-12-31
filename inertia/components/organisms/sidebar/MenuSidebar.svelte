@@ -84,7 +84,7 @@
 			src={projectImage}
 			alt="banner"
 		/> -->
-		<img src={projectImage} class="mx-auto px-6 mt-2 banner w-full" alt="logo banner"/>
+		<!-- <img src={projectImage} class="mx-auto px-6 mt-2 banner w-full" alt="logo banner"/> -->
 		<!-- End of Banner -->
 
 		<div class="px-4 py-2 text-nowrap menus min-h-full h-auto">

@@ -22,4 +22,5 @@
 	});
 </script>
 
-<div class="px-6">{@html prettyHtml}</div>
+<div class="px-6 h-full overflow-auto">{@html prettyHtml}</div>
+

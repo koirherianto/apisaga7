@@ -108,7 +108,7 @@
 			padding: 0.25rem 0.5rem; /* px-2 py-1 */
 			border-radius: 0.5rem; /* rounded-lg */
 			margin: 0 0.25rem; /* mx-1 */
-			color: #1F2937; /* text-gray-800 */
+			color: #282C34; /* text-gray-800 */
 		}
 
 	</style>
