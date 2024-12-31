@@ -87,11 +87,20 @@
 		</div>
 	</div>
 	<div class="border-t absolute h-[4.5rem] bg-white bottom-0 right-0 left-0 flex add-menu-button" id="tambah_menu">
-		<AddNewMenuModal>
+		
+		<AddNewMenuModal title="Add New Menu">
 			<svelte:fragment slot="trigger" let:toggle>
 				<SidebarAddNewMenu on:toggle={toggle} />
 			</svelte:fragment>
 		</AddNewMenuModal>
+		<div class="row">
+			<div class="col">.</div>
+			<div class="col">
+				<button on:click={toggle} class="hover:text-gray-800 absolute right-4 toggler hidden lg:inline-flex">
+					<ListIcon classList="!size-5 fill-current" />
+				</button>
+			</div>
+		</div>
 	</div>
 	
 	<!-- End of Content -->

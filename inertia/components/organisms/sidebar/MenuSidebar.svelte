@@ -13,7 +13,7 @@
 	import { versionStore } from '~/stores/version'
 	import { languagesStore } from '~/stores/language'
 
-	import projectImage from '~/lib/images/go-sidebar-banner.png';
+	// import projectImage from '~/lib/images/go-sidebar-banner.png';
 
 	import SidebarTopbarList from './SidebarTopbarList.svelte'
 	import SidebarMenuList from './SidebarMenuList.svelte'

@@ -24,7 +24,7 @@
 	});
 </script>
 
-<div class="markdown-content py-4">
+<div class="markdown-content py-4 h-full overflow-auto">
 	<div class="px-6">{@html html}</div>
 </div>
 
