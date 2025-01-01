@@ -13,4 +13,9 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
   {{{ await $slots.main() }}}
+  <script>
+    @if($slots.script)
+      {{{ await $slots.script() }}}
+    @end
+  </script>
 </html>

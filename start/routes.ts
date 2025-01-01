@@ -17,3 +17,8 @@ router.group(() => {
     router.get('/login', [AuthController, 'loginView']).as('login')
     router.post('/login', [AuthController, 'login']).as('login.store')
 }).middleware(middleware.guest())
+
+
+router.group(() => {
+    router.delete('/logout', [AuthController, 'logout']) // no csrf
+}).middleware(middleware.auth())
