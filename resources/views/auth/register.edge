@@ -1,0 +1,74 @@
+@layout.app({ title: "Register | Apisaga" })
+<body>
+  <div class="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+    <div class="w-full max-w-md bg-white rounded-lg shadow-md">
+      <div class="text-center p-6 space-y-1">
+        <h1 class="text-3xl font-bold">Create an account</h1>
+        <p>Enter your information to create your account</p>
+      </div>
+      <div class="p-6">
+        <form action="{{ route('register.store') }}" method="POST" class="space-y-4">
+          {{ csrfField() }}
+            <div class="space-y-2">
+              <label for="name" id="name" class="block text-sm font-medium text-gray-700">Name</label>
+              <input type="text" name="name" value="{{ old('name') || '' }}" required
+                class="w-full p-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500">
+              @inputError('name')
+                @each(message in $messages)
+                <p>{{ message }}</p>
+                @end
+              @end
+            </div>
+            <div class="space-y-2">
+              <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+              <input id="username" name="username" value="{{ old('username') || '' }}" type="text" required
+                class="w-full p-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500">
+              @inputError('username')
+                @each(message in $messages)
+                  <p>{{ message }}</p>
+                @end
+              @end
+            </div>
+          <div class="space-y-2">
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input id="email" name="email" value="{{ old('email') || '' }}"  type="email" placeholder="m@example.com" required
+              class="w-full p-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500">
+            @inputError('email')
+              @each(message in $messages)
+                <p>{{ message }}</p>
+              @end
+            @end
+          </div>
+          <div class="space-y-2">
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input id="password" name="password" type="password" required
+              class="w-full p-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500">
+              @inputError('password')
+                @each(message in $messages)
+                  <p>{{ message }}</p>
+                @end
+              @end
+          </div>
+          <div class="space-y-2">
+            <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <input id="password_confirmation" name="password_confirmation" type="password" required
+              class="w-full p-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500">
+              @inputError('password_confirmation')
+                @each(message in $messages)
+                  <p>{{ message }}</p>
+                @end
+              @end
+          </div>
+          <button type="submit" class="w-full bg-emerald-600 text-white font-bold py-2 rounded-md hover:bg-emerald-500">
+            Create account
+          </button>
+        </form>
+        <div class="mt-4 text-center text-sm">
+          Already have an account?
+          <a href="{{ route('login') }}" class="text-emerald-600 hover:text-emerald-500">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+@end

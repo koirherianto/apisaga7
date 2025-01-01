@@ -11,9 +11,9 @@ router.get('/', [LandingController, 'index'])
 
 
 router.group(() => {
-    router.get('/register', [AuthController, 'registerPage']).as('register')
+    router.get('/register', [AuthController, 'registerView']).as('register')
     router.post('/register', [AuthController, 'register']).as('register.store')
 
-    router.get('/login', [AuthController, 'loginpage']).as('login')
+    router.get('/login', [AuthController, 'loginView']).as('login')
     router.post('/login', [AuthController, 'login']).as('login.store')
 }).middleware(middleware.guest())
