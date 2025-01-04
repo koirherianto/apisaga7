@@ -10,7 +10,6 @@ router.on('/editor').renderInertia('home')
 
 router.get('/', [LandingController, 'index'])
 
-
 router.group(() => {
     router.get('/register', [AuthController, 'registerView']).as('register')
     router.post('/register', [AuthController, 'register']).as('register.store')
