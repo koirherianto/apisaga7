@@ -6,7 +6,7 @@ const AuthController = () => import('#controllers/auth_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
 
 import router from '@adonisjs/core/services/router'
-// router.on('/').renderInertia('home')
+router.on('/editor').renderInertia('home')
 
 router.get('/', [LandingController, 'index'])
 
