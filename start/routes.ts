@@ -4,6 +4,7 @@ import { middleware } from './kernel.js'
 const LandingController = () => import('#controllers/landing_controller')
 const AuthController = () => import('#controllers/auth_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
+const ProfileController = () => import('#controllers/profile_controllers')
 
 import router from '@adonisjs/core/services/router'
 router.on('/editor').renderInertia('home')
@@ -25,7 +26,7 @@ router.group(() => {
 
     router.group(() => {
         // untuk user bisa mengedit data diri
-        // router.get('/profile', [ProfilesController, 'profileView']).as('profile')
+        router.get('/profile', [ProfileController, 'index']).as('profile.index')
         // router.put('/profile', [ProfilesController, 'profileUpdate']).as('profile.update')
 
         // untuk user bisa mengorganisir project nya sendiri
