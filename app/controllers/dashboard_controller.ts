@@ -4,8 +4,7 @@ export default class DashboardController {
   /**
    * Display a list of resource
    */
-  async index({ view, auth }: HttpContext) {
-    await auth.check()
+  async index({ view }: HttpContext) {
     return view.render('dashboard/index')
   }
 

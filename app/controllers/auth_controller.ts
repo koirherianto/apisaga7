@@ -29,7 +29,7 @@ export default class AuthController {
 
     if (isVerify && user) {
       await auth.use('web').login(user)
-      response.redirect('/u/projects')
+      response.redirect().toRoute('dashboard.index')
     } else {
       session.flash('inputErrorsBag', { email: ['Email or password is wrong'] })
       response.redirect().back()

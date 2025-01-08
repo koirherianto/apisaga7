@@ -22,7 +22,7 @@ router.group(() => {
 
 
 router.group(() => {
-    router.delete('/logout', [AuthController, 'logout']) // no csrf
+    router.delete('/logout', [AuthController, 'logout']).as('logout')
 
     router.group(() => {
         // untuk user bisa mengedit data diri

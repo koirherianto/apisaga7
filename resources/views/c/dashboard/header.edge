@@ -2,15 +2,47 @@
     <h1 class="text-lg font-semibold">
         {{ $props.get('tittle') }}
     </h1>
-    <div class="flex items-center gap-4">
-        <a href="{{ route('profile.index') }}">
-            <button class="p-2 text-gray-600 hover:bg-gray-100 rounded">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                </svg>
-            </button>
-        </a>
+    <div class="relative">
+        <button id="dropdownButton" class="p-2 text-gray-600 hover:bg-gray-100 rounded focus:outline-none">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            </svg>
+        </button>
+        <!-- Dropdown -->
+        <div id="dropdownMenu" class="hidden absolute right-0 mt-2 w-48 bg-white border rounded shadow-md">
+            <a href="{{ route('profile.index') }}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">Profile</a>
+            <button onclick="handleLogout(); return false;" class="w-full text-left block px-4 py-2 text-gray-700 hover:bg-gray-100">logout</button>
+        </div>
     </div>
 </header>
+
+<script>
+    document.getElementById('dropdownButton').addEventListener('click', function () {
+        const dropdown = document.getElementById('dropdownMenu');
+        dropdown.classList.toggle('hidden');
+    });
+
+    // Optional: Close the dropdown when clicking outside
+    document.addEventListener('click', function (event) {
+        const dropdown = document.getElementById('dropdownMenu');
+        const button = document.getElementById('dropdownButton');
+        if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+
+    async function handleLogout() {
+        const response = await fetch('/logout', {
+            method: 'DELETE'
+        });
+        const result = await response.json();
+
+        if (result.success) {
+            window.location.href = '/';
+        } else {
+            console.error('Logout failed');
+        }
+    }
+</script>
