@@ -10,9 +10,6 @@ export default class Project extends BaseModel {
   declare id: string
 
   @column()
-  declare licenseId: string
-
-  @column()
   declare title: string
 
   @column()
