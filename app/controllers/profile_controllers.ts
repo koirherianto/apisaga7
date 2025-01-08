@@ -7,7 +7,7 @@ export default class ProfileController {
    */
   index({ view, auth }: HttpContext) {
     const user = auth.user!
-    return view.render('dashboard/profile', { user })
+    return view.render('profile/index', { user })
   }
   /**
    * Handle form submission for the edit action

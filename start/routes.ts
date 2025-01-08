@@ -19,8 +19,6 @@ router.group(() => {
     router.post('/login', [AuthController, 'login']).as('login.store')
 }).middleware(middleware.guest())
 
-
-
 router.group(() => {
     router.delete('/logout', [AuthController, 'logout']).as('logout')
 
