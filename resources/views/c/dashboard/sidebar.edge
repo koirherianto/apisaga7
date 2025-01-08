@@ -10,33 +10,17 @@
   </div>
   <nav class="flex-1">
     <ul>
-      <li class="p-4 hover:bg-gray-700">
-        <a href="/" class="flex items-center">
-          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Nginx
-        </a>
-      </li>
-      <li class="p-4 hover:bg-gray-700">
-        <a href="/users" class="flex items-center">
-          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Htmx
-        </a>
-      </li>
-      <li class="p-4 hover:bg-gray-700">
-        <a href="/settings" class="flex items-center">
-          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Typecipt
-        </a>
-      </li>
+      @each(project in projects)
+        <li class="p-4 hover:bg-gray-700">
+          <a href="/" class="flex items-center">
+            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+            {{ project.title }}
+          </a>
+        </li>
+      @end
     </ul>
   </nav>
   <div class="border-t p-6">

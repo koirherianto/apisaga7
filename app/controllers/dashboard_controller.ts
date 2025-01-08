@@ -10,15 +10,17 @@ export default class DashboardController {
   /**
    * Display a list of resource
    */
-  async index({ view }: HttpContext) {
-    return view.render('dashboard/index')
+  async index({ view, auth }: HttpContext) {
+    const projects = await auth.user?.related('projects').query()
+    return view.render('dashboard/index', { projects })
   }
 
   /**
    * Display form to create a new record
    */
-  async create({ view }: HttpContext) {
-    return view.render('dashboard/create')
+  async create({ view, auth }: HttpContext) {
+    const projects = await auth.user?.related('projects').query()
+    return view.render('dashboard/create', { projects })
   }
 
   /**
