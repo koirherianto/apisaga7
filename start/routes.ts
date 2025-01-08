@@ -27,7 +27,7 @@ router.group(() => {
     router.group(() => {
         // untuk user bisa mengedit data diri
         router.get('/profile', [ProfileController, 'index']).as('profile.index')
-        // router.put('/profile', [ProfilesController, 'profileUpdate']).as('profile.update')
+        router.put('/profile', [ProfileController, 'update']).as('profile.update')
 
         // untuk user bisa mengorganisir project nya sendiri
         router.resource('dashboard', DashboardController).as('dashboard')

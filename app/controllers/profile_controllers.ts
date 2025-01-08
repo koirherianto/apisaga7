@@ -1,41 +1,32 @@
+import { updateProfileValidator } from '#validators/profile'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class ProfileController {
   /**
    * Display a list of resource
    */
-  async index({ view, auth }: HttpContext) {
-    await auth.check()
-    return view.render('dashboard/profile')
+  index({ view, auth }: HttpContext) {
+    const user = auth.user!
+    return view.render('dashboard/profile', { user })
   }
-
-  /**
-   * Display form to create a new record
-   */
-  async create({}: HttpContext) {}
-
-  /**
-   * Handle form submission for the create action
-   */
-  async store({ request }: HttpContext) {}
-
-  /**
-   * Show individual record
-   */
-  async show({ params }: HttpContext) {}
-
-  /**
-   * Edit individual record
-   */
-  async edit({ params }: HttpContext) {}
-
   /**
    * Handle form submission for the edit action
    */
-  async update({}: HttpContext) {}
+  async update({ request, auth, response }: HttpContext) {
+    const { name, email, username, password } = await request.validateUsing(
+      updateProfileValidator,
+      { meta: { userId: auth.user!.id } }
+    )
 
-  /**
-   * Delete record
-   */
-  async destroy({ params }: HttpContext) {}
+    const user = auth.user!
+
+    if (password) {
+      user.merge({ name, email, username, password })
+    } else {
+      user.merge({ name, email, username })
+    }
+
+    user.save()
+    response.redirect().back()
+  }
 }
