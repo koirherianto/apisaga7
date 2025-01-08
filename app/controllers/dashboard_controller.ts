@@ -5,6 +5,7 @@ import Version from '#models/version'
 import Topbar from '#models/topbar'
 import { dd } from '@adonisjs/core/services/dumper'
 import Page from '#models/page'
+import Project from '#models/project'
 
 export default class DashboardController {
   /**
@@ -93,7 +94,12 @@ export default class DashboardController {
   /**
    * Show individual record
    */
-  async show({ params }: HttpContext) {}
+  async show({ view, auth, params }: HttpContext) {
+    const currentProject = await Project.findByOrFail('slug', params.id)
+    const projects = await auth.user?.related('projects').query()
+
+    return view.render('dashboard/show', { currentProject, projects })
+  }
 
   /**
    * Edit individual record

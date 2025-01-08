@@ -7,7 +7,7 @@ const DashboardController = () => import('#controllers/dashboard_controller')
 const ProfileController = () => import('#controllers/profile_controllers')
 
 import router from '@adonisjs/core/services/router'
-router.on('/editor').renderInertia('home')
+router.on('/editor').renderInertia('home').as('editor.index')
 
 router.get('/', [LandingController, 'index'])
 
