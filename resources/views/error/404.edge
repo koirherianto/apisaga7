@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Planet Not Found</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes starAnimation {
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-black text-green-500 flex flex-col items-center justify-center p-4 relative overflow-hidden">
+  <!-- Background Stars -->
+  <div class="absolute inset-0 overflow-hidden">
+    <script>
+      for (let i = 0; i < 100; i++) {
+        const star = document.createElement("div");
+        star.className = "absolute bg-green-500 rounded-full";
+        star.style.top = `${Math.random() * 100}%`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.width = "2px";
+        star.style.height = "2px";
+        star.style.animation = `starAnimation ${Math.random() * 3 + 1}s infinite`;
+        star.style.animationDelay = `${Math.random() * 2}s`;
+        document.body.appendChild(star);
+      }
+    </script>
+  </div>
+
+  <!-- Header -->
+  <h1 class="text-6xl font-bold mb-4 animate-pulse">404: PLANET NOT FOUND</h1>
+  <p class="text-xl mb-8 text-center">Oops! Sepertinya alien telah menculik halaman ini!</p>
+  <div id="game-status" class="text-xl mb-4">Tangkap alien sebelum waktunya habis! Skor: 0</div>
+
+  <!-- Alien -->
+  <div 
+    id="alien" 
+    class="w-16 h-16 absolute cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-110"
+    style="left: 50%; top: 50%; transform: translate(-50%, -50%);"
+  >
+    👽
+  </div>
+
+  <!-- Back Link -->
+  <a href="/" class="mt-8 bg-green-500 text-black px-6 py-3 rounded-full text-xl font-semibold hover:bg-green-400 transition-colors duration-300">
+    Kembali ke Bumi
+  </a>
+
+  <script>
+    const alien = document.getElementById('alien');
+    const gameStatus = document.getElementById('game-status');
+    let score = 0;
+    let gameOver = false;
+
+    // Function to move the alien
+    function moveAlien() {
+      if (gameOver) return;
+      const x = Math.random() * 90; // Random X position
+      const y = Math.random() * 90; // Random Y position
+      alien.style.left = `${x}%`;
+      alien.style.top = `${y}%`;
+    }
+
+    // Alien click handler
+    alien.addEventListener('click', () => {
+      if (!gameOver) {
+        score++;
+        gameStatus.textContent = `Tangkap alien sebelum waktunya habis! Skor: ${score}`;
+      }
+    });
+
+    // Start moving the alien every second
+    const moveInterval = setInterval(moveAlien, 1000);
+
+    // End game after 10 seconds
+    setTimeout(() => {
+      clearInterval(moveInterval);
+      gameOver = true;
+      gameStatus.textContent = `Game Over! Skor akhir: ${score}`;
+    }, 10000);
+  </script>
+</body>
+</html>

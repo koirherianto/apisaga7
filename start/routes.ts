@@ -5,6 +5,8 @@ const LandingController = () => import('#controllers/landing_controller')
 const AuthController = () => import('#controllers/auth_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
 const ProfileController = () => import('#controllers/profile_controllers')
+const RedirectController = () => import('#controllers/redirect_controller')
+const PageController = () => import('#controllers/page_controller')
 
 import router from '@adonisjs/core/services/router'
 router.on('/editor').renderInertia('home').as('editor.index')
@@ -32,17 +34,15 @@ router.group(() => {
 
     }).prefix('u')
 
-    // jika url tidak lengkap arahkan page default
-    router.group(() => {
-        // router.get(':project', [RedirectController, 'project']).as('redirect.project')
-        // router.get(':project/:version', [RedirectController, 'version']).as('redirect.version')
-        // router.get(':project/:version/:topbar', [RedirectController, 'topbar']).as('redirect.topbar')
-    })
-
     // :project/:version/:topbar/:page/editor
     // router.get(':project/:version/:topbar/:page/editor', [EditorController, 'index']).as('editor.index')
     
 }).middleware(middleware.auth())
 
+ // jika url tidak lengkap arahkan page default
+router.get(':sProject', [RedirectController, 'project']).as('redirect.project')
+router.get(':sProject/:sVersion', [RedirectController, 'version']).as('redirect.version')
+router.get(':sProject/:sVersion/:sTopbar', [RedirectController, 'topbar']).as('redirect.topbar')
+
 // default page
-// router.get(':project/:version/:topbar/:page', [PageController, 'index']).as('page.index')
+router.get(':sProject/:sVersion/:sTopbar/:sPage', [PageController, 'index']).as('page.index')
