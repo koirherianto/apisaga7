@@ -3,7 +3,6 @@ import db from '@adonisjs/lucid/services/db'
 import { createProjectValidator, updateProjectValidator } from '#validators/project'
 import Version from '#models/version'
 import Topbar from '#models/topbar'
-import { dd } from '@adonisjs/core/services/dumper'
 import Page from '#models/page'
 import Project from '#models/project'
 
@@ -83,10 +82,16 @@ export default class DashboardController {
       )
 
       await trx.commit()
-      session.flash({ notification: 'Profile updated successfully' })
+      session.flash('notification', {
+        type: 'success',
+        message: 'Project created successfully',
+      })
     } catch (error) {
       await trx.rollback()
-      dd(error)
+      session.flash('notification', {
+        type: 'error',
+        message: 'Something went wrong, please try again',
+      })
     }
     return response.redirect().toRoute('dashboard.index')
   }
@@ -126,7 +131,7 @@ export default class DashboardController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ auth, params, request, response }: HttpContext) {
+  async update({ auth, params, request, response, session }: HttpContext) {
     const currentUser = auth.user!
     const validate = await request.validateUsing(updateProjectValidator, {
       meta: { userId: currentUser.id },
@@ -153,13 +158,19 @@ export default class DashboardController {
       .where('slug', params.id)
       .firstOrFail()
 
-    currentProject.merge({
-      title: validate.title,
-      slug: validate.slug,
-      visibility: validate.visibility,
-      description: validate.description,
+    currentProject
+      .merge({
+        title: validate.title,
+        slug: validate.slug,
+        visibility: validate.visibility,
+        description: validate.description,
+      })
+      .save()
+
+    session.flash('notification', {
+      type: 'success',
+      message: 'Project updated successfully',
     })
-    currentProject.save()
 
     return response.redirect().toRoute('dashboard.show', { id: currentProject.slug })
   }
@@ -167,11 +178,17 @@ export default class DashboardController {
   /**
    * Delete record
    */
-  async destroy({ params, auth, response }: HttpContext) {
+  async destroy({ params, auth, response, session }: HttpContext) {
     const user = auth.user!
     const project = await user.related('projects').query().where('slug', params.id).firstOrFail()
 
     await project.delete()
+
+    session.flash('notification', {
+      type: 'success',
+      message: 'Project deleted successfully',
+    })
+
     return response.redirect().toRoute('dashboard.index')
   }
 }

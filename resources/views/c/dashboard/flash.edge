@@ -1,0 +1,43 @@
+@flashMessage('notification')
+<div
+    class="fixed top-4 right-4 w-96 z-50 flex items-start p-4 rounded-lg shadow-lg border-l-4 
+              bg-white {{ $message.type === 'success' ? 'border-green-500' : ($message.type === 'error' ? 'border-red-500' : 'border-blue-500') }}">
+
+    <!-- Ikon berdasarkan tipe pesan -->
+    <div class="flex-shrink-0">
+        @if($message.type === 'success')
+        <svg class="h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2l4-4m1-2a9 9 0 11-6 17.92M17 9l2 2-5.5 5.5L9 12" />
+        </svg>
+        @elseif($message.type === 'error')
+        <svg class="h-6 w-6 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M18 10c0-4.418-3.582-8-8-8S2 5.582 2 10s3.582 8 8 8s8-3.582 8-8zM12 8v4m0 4h.01" />
+        </svg>
+        @else
+        <svg class="h-6 w-6 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 16h-1v-4h.01M12 9h.01M17 9l2 2l-5.5 5.5L9 12" />
+        </svg>
+        @endif
+    </div>
+
+    <!-- Pesan -->
+    <div class="ml-3">
+        <p class="text-sm font-medium text-gray-900">{{ $message.message }}</p>
+    </div>
+
+    <!-- Tombol Tutup -->
+    <button type="button"
+        class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-500 rounded-lg focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 p-1">
+        <span class="sr-only">Close</span>
+        <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    </button>
+</div>
+@end

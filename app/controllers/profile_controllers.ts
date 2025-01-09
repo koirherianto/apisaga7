@@ -12,7 +12,7 @@ export default class ProfileController {
   /**
    * Handle form submission for the edit action
    */
-  async update({ request, auth, response }: HttpContext) {
+  async update({ request, auth, response, session }: HttpContext) {
     const { name, email, username, password } = await request.validateUsing(
       updateProfileValidator,
       { meta: { userId: auth.user!.id } }
@@ -27,6 +27,12 @@ export default class ProfileController {
     }
 
     user.save()
+
+    session.flash('notification', {
+      type: 'success',
+      message: 'Profile updated successfully',
+    })
+
     response.redirect().back()
   }
 }
