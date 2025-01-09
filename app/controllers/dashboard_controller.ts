@@ -1,6 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
-import { createProjectValidator } from '#validators/project'
+import { createProjectValidator, updateProjectValidator } from '#validators/project'
 import Version from '#models/version'
 import Topbar from '#models/topbar'
 import { dd } from '@adonisjs/core/services/dumper'
@@ -95,8 +95,14 @@ export default class DashboardController {
    * Show individual record
    */
   async show({ view, auth, params }: HttpContext) {
-    const currentProject = await Project.findByOrFail('slug', params.id)
-    const projects = await auth.user?.related('projects').query()
+    const currenUser = auth.user!
+
+    const currentProject = await currenUser
+      .related('projects')
+      .query()
+      .where('slug', params.id)
+      .firstOrFail()
+    const projects = await currenUser.related('projects').query()
 
     return view.render('dashboard/show', { currentProject, projects })
   }
@@ -104,15 +110,68 @@ export default class DashboardController {
   /**
    * Edit individual record
    */
-  async edit({ params }: HttpContext) {}
+  async edit({ view, auth, params }: HttpContext) {
+    const currenUser = auth.user!
+    const currentProject = await currenUser
+      .related('projects')
+      .query()
+      .where('slug', params.id)
+      .firstOrFail()
+
+    const projects = await auth.user?.related('projects').query()
+
+    return view.render('dashboard/edit', { currentProject, projects })
+  }
 
   /**
    * Handle form submission for the edit action
    */
-  async update({}: HttpContext) {}
+  async update({ auth, params, request, response }: HttpContext) {
+    const currentUser = auth.user!
+    const validate = await request.validateUsing(updateProjectValidator, {
+      meta: { userId: currentUser.id },
+    })
+
+    const isProjectExist = await Project.query().where('slug', validate.slug).first()
+
+    if (isProjectExist) {
+      const projectPunyaUser = await auth.user
+        ?.related('projects')
+        .query()
+        .where('slug', validate.slug)
+        .first()
+
+      // jika project yang diupdate adalah project yang dimiliki oleh orang lain
+      if (!projectPunyaUser) {
+        return response.redirect().toRoute('dashboard.index')
+      }
+    }
+
+    const currentProject = await currentUser
+      .related('projects')
+      .query()
+      .where('slug', params.id)
+      .firstOrFail()
+
+    currentProject.merge({
+      title: validate.title,
+      slug: validate.slug,
+      visibility: validate.visibility,
+      description: validate.description,
+    })
+    currentProject.save()
+
+    return response.redirect().toRoute('dashboard.show', { id: currentProject.slug })
+  }
 
   /**
    * Delete record
    */
-  async destroy({ params }: HttpContext) {}
+  async destroy({ params, auth, response }: HttpContext) {
+    const user = auth.user!
+    const project = await user.related('projects').query().where('slug', params.id).firstOrFail()
+
+    await project.delete()
+    return response.redirect().toRoute('dashboard.index')
+  }
 }
