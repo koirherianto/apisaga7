@@ -6,7 +6,7 @@
 
 	// lapis 1 +layout.server.ts paling luar
   // new data
-  import { topbarsData, versionsData, languagesData, pagesData } from '~/main_data';
+  import { versionsData, languagesData, pagesData } from '~/main_data';
 
   import type { Project } from '~/types/projects'
   import type { Version } from "~/types/version"

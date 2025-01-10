@@ -15,13 +15,13 @@
   export let pages: Post[]
 
   // +page.server.ts
-  // const data: ReadPost = {
-	// 	category: 'categorry',
-	// 	parent: 'Getting Started',
-	// 	title: 'Installation',
-	// 	slug: 'installation',
-	// 	content: 'Hello World'
-	// };
+  const data: ReadPost = {
+		category: 'categorry',
+		parent: 'Getting Started',
+		title: 'Installation',
+		slug: 'installation',
+		content: 'Hello World'
+	};
 
   // +page.svelte editor
   import Editor from '~/components/organisms/editor/Editor.svelte';
