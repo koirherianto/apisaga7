@@ -24,7 +24,7 @@
 
   let data = {
     topbars: topbars,
-    versions: versionsData,
+    versions: versions,
     languages: languagesData,
     pages: pagesData
   }

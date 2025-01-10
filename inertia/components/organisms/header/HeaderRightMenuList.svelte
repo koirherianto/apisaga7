@@ -90,7 +90,7 @@
 			<!-- Trigger button -->
 			<svelte:fragment slot="trigger" let:toggleDropdown>
 				<button on:click={toggleDropdown} class="text-black text-base font-medium flex items-center gap-1 not-sortable">
-					<span>{versions[0].title}</span>
+					<span>{versions[0].name}</span>
 					<AngleDownIcon classList="!size-5" />
 				</button>
 			</svelte:fragment>
@@ -101,7 +101,7 @@
 					{#each versions as version}
 						<div bind:this={versionSortableMenu} class="flex mb-2 items-center group hover:bg-gray-50 rounded-md px-4 py-1 cursor-pointer">
 							<a class="text-base flex-1 flex items-center text-nowrap" href="/#">
-								{version.title}
+								{version.name}
 							</a>
 							<!-- Right icon for editable menu -->
 							<div class="hidden group-hover:flex items-center justify-center gap-1">

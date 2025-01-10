@@ -4,15 +4,15 @@ import type { Language } from './types/language'
 import type { Post } from './types/post'
 
 export const topbarsData: Topbar[] = [
-  { id: 1, title: 'Docs', slug: 'docs' },
-  { id: 2, title: 'Playground', slug: 'playground' },
-  { id: 3, title: 'Blog', slug: 'blog' },
-  { id: 4, title: 'Tutorial', slug: 'tutorial' },
+  { id: '1', name: 'Docs', slug: 'docs' },
+  { id: '2', name: 'Playground', slug: 'playground' },
+  { id: '3', name: 'Blog', slug: 'blog' },
+  { id: '4', name: 'Tutorial', slug: 'tutorial' },
 ]
 
 export const versionsData: Version[] = [
-  { id: 1, title: 'v3.0.0', slug: 'v3.0.0' },
-  { id: 2, title: 'v9.0.0', slug: 'v9.0.0' },
+  { id: '1', name: 'v3.0.0', slug: 'v3.0.0' },
+  { id: '2', name: 'v9.0.0', slug: 'v9.0.0' },
 ]
 
 export const pagesData: Post[] = [
@@ -77,20 +77,4 @@ export const pagesData: Post[] = [
   },
 ]
 
-export const languagesData: Language[] = [
-  { id: 1, title: 'English', slug: 'english' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 3, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-  { id: 2, title: 'Java', slug: 'java' },
-]
+export const languagesData: Language[] = [{ id: 1, title: 'English', slug: 'english' }]
