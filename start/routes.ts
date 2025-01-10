@@ -32,16 +32,15 @@ router.group(() => {
         // untuk user bisa mengorganisir project nya sendiri
         router.resource('dashboard', DashboardController).as('dashboard')
 
+        // Editor Page
+        router.get(':sProject/:sVersion/:sTopbar/:sPage', [EditorController, 'index'])
+
+        // CRUD version, topbar, page
+        // router.resource('version', VersionController).as('version')
+        // router.resource('topbar', TopbarController).as('topbar')
+        // router.resource('page', PageController).as('page')
     }).prefix('u')
 
-    // CRUD version, topbar, page
-    // router.resource('version', VersionController).as('version')
-    // router.resource('topbar', TopbarController).as('topbar')
-    // router.resource('page', PageController).as('page')
-
-    // Editor Page
-    router.get(':sProject/:sVersion/:sTopbar/:sPage/editor', [EditorController, 'index']).as('editor.index')
-    
 }).middleware(middleware.auth())
 
  // jika url tidak lengkap arahkan page default

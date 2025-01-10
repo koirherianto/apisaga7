@@ -10,6 +10,7 @@ export const createProjectValidator = vine.compile(
       .trim()
       .minLength(4)
       .maxLength(100)
+      .notIn(['dashboard', 'profile'])
       .alpha({
         allowSpaces: false,
         allowUnderscores: false,
@@ -42,7 +43,7 @@ export const updateProjectValidator = vine.compile(
         .use(existRule({ table: 'projects', column: 'slug' })),
     }),
     title: vine.string().trim().minLength(4).maxLength(100),
-    slug: vine.string().trim().minLength(4).maxLength(100).alpha({
+    slug: vine.string().trim().minLength(4).maxLength(100).notIn(['dashboard', 'profile']).alpha({
       allowSpaces: false,
       allowUnderscores: false,
       allowDashes: true,

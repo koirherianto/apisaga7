@@ -1,5 +1,5 @@
 <svelte:head>
-  <title>Homepage2</title>
+  <title>Editor</title>
 </svelte:head>
 
 <script lang="ts">
