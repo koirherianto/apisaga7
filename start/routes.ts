@@ -7,9 +7,9 @@ const DashboardController = () => import('#controllers/dashboard_controller')
 const ProfileController = () => import('#controllers/profile_controllers')
 const RedirectController = () => import('#controllers/redirect_controller')
 const PageController = () => import('#controllers/page_controller')
+const EditorController = () => import('#controllers/editor_controller')
 
 import router from '@adonisjs/core/services/router'
-router.on('/editor').renderInertia('home').as('editor.index')
 
 router.get('/', [LandingController, 'index'])
 
@@ -34,8 +34,13 @@ router.group(() => {
 
     }).prefix('u')
 
-    // :project/:version/:topbar/:page/editor
-    // router.get(':project/:version/:topbar/:page/editor', [EditorController, 'index']).as('editor.index')
+    // CRUD version, topbar, page
+    // router.resource('version', VersionController).as('version')
+    // router.resource('topbar', TopbarController).as('topbar')
+    // router.resource('page', PageController).as('page')
+
+    // Editor Page
+    router.get(':sProject/:sVersion/:sTopbar/:sPage/editor', [EditorController, 'index']).as('editor.index')
     
 }).middleware(middleware.auth())
 
