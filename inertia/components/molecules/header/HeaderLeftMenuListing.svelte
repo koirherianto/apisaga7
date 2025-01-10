@@ -34,7 +34,7 @@
 					href="{prefix}/{topbar.slug}"
 				>
 					<ListIcon classList="!size-4 absolute opacity-0 dragging-icon" />
-					{topbar.title}
+					{topbar.name}
 				</a>
 				<button class="opacity-0 group-hover:opacity-100" on:click={toggleDropdown}>
 					<MoreIcon classList="rotate-90" />

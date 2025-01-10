@@ -1,5 +1,7 @@
 export type Topbar = {
-  id: number
-  title: string
+  id: string
+  versionId: string
+  name: string
   slug: string
+  isDefault: boolean
 }

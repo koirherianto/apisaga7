@@ -1,6 +1,9 @@
 export type Version = {
-  id: number
-  title: string
-  slug: string | undefined
+  id: string
+  projectId: string
+  name: string
+  slug: string
+  isDefault: boolean
+  visibility: string
   submenu?: Version[]
 }

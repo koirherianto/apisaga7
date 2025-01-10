@@ -123,7 +123,7 @@
 		>
 			<ListIcon classList="!size-4 absolute opacity-0 dragging-icon" />
 
-			<span>{menu.title}</span>
+			<span>{menu.name ?? menu.title}</span>
 
 			{#if menu.submenu}
 				<AngleRight classList="!size-5 angle {isOpen ? 'show' : ''}" />

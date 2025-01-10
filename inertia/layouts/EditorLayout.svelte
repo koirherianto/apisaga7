@@ -8,8 +8,22 @@
   // new data
   import { topbarsData, versionsData, languagesData, pagesData } from '~/main_data';
 
+  import type { Project } from '~/types/projects'
+  import type { Version } from "~/types/version"
+  import type { Topbar } from "~/types/topbar"
+  import type { Post} from '~/types/post';
+
+  export let currentProject: Project
+  export let currentVersion: Version
+  export let currentTopbar: Topbar
+  export let currentPage: Post
+
+  export let versions: Version[]
+  export let topbars: Topbar[]
+  export let pages: Post[]
+
   let data = {
-    topbars: topbarsData,
+    topbars: topbars,
     versions: versionsData,
     languages: languagesData,
     pages: pagesData
@@ -52,7 +66,6 @@
       sidebarOpen = true
     }
   })
-
 </script>
 
 <Sidebar {sidebarOpen} on:toggle={toggleSidebar} />

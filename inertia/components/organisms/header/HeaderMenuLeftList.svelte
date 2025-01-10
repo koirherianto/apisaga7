@@ -72,7 +72,7 @@
 </script>
 
 <ul class="flex items-center h-full header-left-menu" bind:this={sortableEl}>
-	{#each topbars as topbar (topbar.title)}
+	{#each topbars as topbar (topbar.id)}
 		<HeaderLeftMenuListing {topbar} {prefix} />
 	{/each}
 
