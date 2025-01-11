@@ -12,4 +12,16 @@ export default class VersionController {
 
     const version = project.related('versions').query().where('slug', params.sVersion).first()
   }
+
+  async create({ view, auth, params }: HttpContext) {
+    const currentUser = auth.user!
+    // dapatkan data version dari project
+    const project = await currentUser
+      .related('projects')
+      .query()
+      .where('slug', params.sProject)
+      .firstOrFail()
+
+    return view.render('version/create', { project })
+  }
 }

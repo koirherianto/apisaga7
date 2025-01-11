@@ -8,6 +8,7 @@ const ProfileController = () => import('#controllers/profile_controllers')
 const RedirectController = () => import('#controllers/redirect_controller')
 const PageController = () => import('#controllers/page_controller')
 const EditorController = () => import('#controllers/editor_controller')
+const VersionController = () => import('#controllers/version_controller')
 
 import router from '@adonisjs/core/services/router'
 
@@ -36,7 +37,7 @@ router.group(() => {
         router.get(':sProject/:sVersion/:sTopbar/:sPage', [EditorController, 'index']).as('editor.index')
 
         // CRUD version, topbar, page
-        // router.resource('version', VersionController).as('version')
+        router.resource('version', VersionController).as('version')
         // router.resource('topbar', TopbarController).as('topbar')
         // router.resource('page', PageController).as('page')
     }).prefix('u')

@@ -51,6 +51,13 @@
 		console.log('do deleting');
 		e.detail(); // toggle modal
 	};
+
+	const handleNewVersionSubmit = (event: CustomEvent<{ name: string; slug: string }>) => {
+        const { name, slug } = event.detail;
+        console.log('Name:', name, 'Slug:', slug);
+
+        // Lakukan logika seperti memanggil API atau menyimpan data
+    };
 </script>
 
 <ul class="flex items-center gap-4">
@@ -129,7 +136,7 @@
 				</div>
 				<!-- {#if $isEditor} -->
 					<div class="flex justify-center not-sortable">
-						<AddNewVersionModal>
+						<AddNewVersionModal title="Add a New Version." on:submit={handleNewVersionSubmit}>
 							<svelte:fragment slot="trigger" let:toggle>
 								<button on:click={toggle}>
 									<PlusIcon classList="fill-green-500 size-5" />
