@@ -126,7 +126,13 @@
 
                 <!-- Right Button -->
                 <div>
-                    <a href="{{ route('editor.index', { id: currentProject.id }) }}" 
+                    <a href="{{ route('editor.index', { 
+                      id: currentProject.id,
+                      sProject: currentProject.slug,
+                      sVersion: currentVersion.slug,
+                      sTopbar: currentTopbar.slug,
+                      sPage: currentPage.slug,
+                    }) }}"
                         class="btn btn-accent px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         Editor
                     </a>

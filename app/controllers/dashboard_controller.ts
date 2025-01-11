@@ -107,9 +107,33 @@ export default class DashboardController {
       .query()
       .where('slug', params.id)
       .firstOrFail()
+    const currentVersion = await currentProject
+      .related('versions')
+      .query()
+      .where('isDefault', true)
+      .firstOrFail()
+
+    const currentTopbar = await currentVersion
+      .related('topbars')
+      .query()
+      .where('isDefault', true)
+      .firstOrFail()
+
+    const currentPage = await currentTopbar
+      .related('pages')
+      .query()
+      .where('isDefault', true)
+      .firstOrFail()
+
     const projects = await currenUser.related('projects').query()
 
-    return view.render('dashboard/show', { currentProject, projects })
+    return view.render('dashboard/show', {
+      currentProject,
+      projects,
+      currentVersion,
+      currentTopbar,
+      currentPage,
+    })
   }
 
   /**

@@ -33,7 +33,7 @@ router.group(() => {
         router.resource('dashboard', DashboardController).as('dashboard')
 
         // Editor Page
-        router.get(':sProject/:sVersion/:sTopbar/:sPage', [EditorController, 'index'])
+        router.get(':sProject/:sVersion/:sTopbar/:sPage', [EditorController, 'index']).as('editor.index')
 
         // CRUD version, topbar, page
         // router.resource('version', VersionController).as('version')
