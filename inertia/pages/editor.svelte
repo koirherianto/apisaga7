@@ -32,7 +32,7 @@
   <div class="px-4">
     <!-- Editor -->
     <div class="bg-white mt-6">
-      <Editor />
+      <Editor {currentPage} />
     </div>
     <!-- End of Editor -->
   </div>
