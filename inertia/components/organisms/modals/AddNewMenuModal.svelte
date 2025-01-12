@@ -28,6 +28,8 @@
 				{#if !noParentEdit}
 					<SelectInput classList="mb-4" placeholder="Parent Menu" options={parents} />
 				{/if}
+				<!-- dropdown boolean is_default-->
+				<SelectInput classList="mb-4" placeholder="Type" options={[{ label: 'Dropdown', value: '1' }, { label: 'Boolean', value: '2' }]} />
 				<TextInput classList="mb-4" label="Name" placeholder="Enter the page name" />
 				<TextInput classList="" label="Slug" placeholder="Enter the page slug" />
 				<Button on:click={toggle} classList="mt-4" size="large">Save Changes</Button>

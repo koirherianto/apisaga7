@@ -91,7 +91,7 @@
 	</div>
 	<div class="border-t absolute h-[4.5rem] bg-white bottom-0 right-0 left-0 flex add-menu-button" id="tambah_menu">
 		
-		<AddNewMenuModal title="Add New Menu">
+		<AddNewMenuModal title="Add New Page">
 			<svelte:fragment slot="trigger" let:toggle>
 				<SidebarAddNewMenu on:toggle={toggle} />
 			</svelte:fragment>
