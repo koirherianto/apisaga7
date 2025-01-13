@@ -1,0 +1,240 @@
+@layout.tes({ title: " Apisaga | Write, Manage, and Share Your Documentation."})
+
+    <body>
+        
+        {{--  <div x-data="{
+            open: false,
+            buka() { this.open = ! this.open },
+            get isOpen() {return this.open}
+        }">
+
+            <button @click="buka"> tutup buka</button>
+
+            <div x-show="isOpen">
+                assalamulaikum
+            </div>
+        </div>  --}}
+
+
+        {{--  <button 
+            x-data="{open: true}" 
+            @click=" open=false" 
+            x-show="open"
+        > tutup saya </button>  --}}
+
+
+        {{--  <div x-data="dropdown">
+            <button @click=" toggle ">Buka</button>
+            <div x-show="open">Ini content</div>
+        </div>
+
+        <div x-data="modal">
+            <button @click="toggle()">Buka Modal</button>
+            <div x-show="open" style="display: none;">Ini adalah konten modal</div>
+        </div>  --}}
+
+        {{--  <script>
+          @slot('script')
+            // Alpine Data untuk dropdown
+            Alpine.data('dropdown', () => ({
+                open: false,
+                toggle() {
+                    this.open = !this.open;
+                },
+            }));
+    
+            // Alpine Data untuk modal
+            Alpine.data('modal', () => ({
+                open: false,
+                toggle() {
+                    this.open = !this.open;
+                },
+            }));
+          @endslot
+        </script>  --}}
+
+
+
+        {{--  X-init  --}}
+
+        <div x-data="{ currentTime: '' }" x-init="currentTime = new Date().toLocaleTimeString()">
+            <p x-text="currentTime"></p>
+        </div>
+
+
+        {{--   data x-bind  --}}
+        {{--  <div x-data="{placeholder: 'ketik sesuatu'}">
+            <input type="text" :placeholder="placeholder">
+
+            <h1 x-text="placeholder"></h1>
+        </div>
+
+
+        <div x-data="{ open: false}">
+            <button @click="open = !open" class="btn"> klik me</button>
+
+            <h1 x-bind:class="open ? '' : 'hidden' ">tes</h1>
+        </div>
+
+
+        <div x-data="{ isActive: true }" :class="{ 'bg-blue-500': isActive, 'text-white': isActive }">
+            Ini adalah div yang akan memiliki kelas "bg-blue-500" dan "text-white".
+        </div>  --}}
+
+
+
+        {{--  <div x-data="dropdown">
+            <button x-bind="trigger">Open Dropdown</button>
+         
+            <span x-bind="dialogue">Dropdown Contents</span>
+        </div>
+         
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('dropdown', () => ({
+                    open: false,
+         
+                    trigger: {
+                        ['x-ref']: 'trigger',
+                        ['@click']() {
+                            this.open = true
+                        },
+                    },
+         
+                    dialogue: {
+                        ['x-show']() {
+                            return this.open
+                        },
+                        ['@click.outside']() {
+                            this.open = false
+                        },
+                    },
+                }))
+            })
+        </script>
+          --}}
+
+
+
+        {{--  x-on  --}}
+        {{--  <button x-data x-on:click="alert('ini x-on')"> muncul console log</button>  --}}
+        {{--  <button x-data @click=" alert('ini x-on') "> x-on:click disingkat jadi @click </button>  --}}
+
+
+        {{--  event target, mengambil dari idirinya sendiri  --}}
+        {{--  <button x-data @click=" alert($event.target.getAttribute('message')) " message="hello"> event.target</button>
+
+        <button x-data @click="handleClick" message="hello"> handle click button</button>
+
+        <script>
+            function handleClick(e) {
+                alert(e.target.getAttribute('message'))
+            }
+        </script>
+
+
+        <input x-data type="text" @keyup.enter="alert('enter di klik')">
+        <input x-data type="text" @keyup.shift.enter="alert('Submitted!')">
+
+
+        <div x-data @kastemfungsi="handleFungsiKlik">
+            <button @click="$dispatch('kastemfungsi')"> memanggil function kostume yang kita buat</button>
+        </div>
+
+        <script>
+            function handleFungsiKlik(e) {
+                alert('ini alert bro')
+            }
+        </script>
+
+
+        <form x-data action="/kesini" @submit.prevent="alert('menghiraukan prilaku normal form')">
+            <button>tombol submit @submit.prevent menghiraukan prilaku normal form</button>
+        </form>
+
+        <div x-data @click=" alert('ini tidak dipanggil karna stop proppagation')">
+            <button @click.stop="alert('ini menghentikan propagation')">ini menghentikan propagation</button>
+        </div>
+
+        <div x-data="{open: false}">
+            <button @click="open = !open">buka tutup</button>
+            
+            <h1 x-show="open" @click.outside="open = false">Ini content, klik di luar agar ditutup</h1>
+        </div>
+
+        <div x-data="{ isOpen: false }">
+            <button @click="isOpen = true">Open Modal</button>
+        
+            <div x-show="isOpen" class="modal">
+                <p>Modal Content</p>
+                <button @click="isOpen = false">Close</button>
+            </div>
+        
+            <!-- Close modal when Escape is pressed anywhere -->
+            <div @keyup.escape.window="isOpen = false"></div>
+        </div>        
+
+
+        <div x-data="{ scrolled: false }" @scroll.window="scrolled = true">
+            <p x-text="scrolled ? 'You scrolled the window' : 'Scroll to trigger this'"></p>
+        </div>
+
+
+        <button x-data @click.once="alert('ini cuman dipanggil sekali')"> ini cuman bisa di klik sekali</button>
+        
+        <input x-data type="text" placeholder="bouncher log per 300ms" @input.debounce.500ms="handleFetch">
+
+        <script>
+            function handleFetch(e) {
+                console.log(e.target.value)
+            }
+        </script>  --}}
+
+
+        {{--  sama kayak debounce, tapi throttle akan memanggil function setiap 300ms  --}}
+        {{--  <div x-data="{ scrolled: false }" 
+            @scroll.throttle="scrolled = true" 
+            style="height: 300px; overflow: auto;">
+            <div style="height: 1000px;">Scroll me!</div>
+
+            <p x-text="scrolled ? 'You scrolled!' : 'Scroll more...'" />
+        </div>  --}}
+
+
+        <div x-data="{ clicked: false }" @click.self="clicked = true">
+            <p>@click.self hanya berlaku untuk dirinya sendiri bukan tag child </p>
+            <button>button tidak akan mentrigeer</button>
+        
+            <p x-text="clicked ? 'Div clicked!' : 'Click the div only!'"></p>
+        </div>
+        
+
+        <div x-data="{name: 'koir herianto'}">
+            <h5 x-text="name"></h5>
+        </div>
+
+        <div x-data="{name: '<h4>koir herianto</h4>'}">
+            Nama <span x-html="name"></span>
+        </div>
+
+
+        <div x-data="{someInput:''}">
+            <input type="text" x-model="someInput" placeholder="model = bind">
+
+            <span x-text="someInput"></span>
+        </div>
+
+        <div x-data="{message:''}">
+            <p>model reactivity</p>
+            <textarea x-model="message"></textarea>
+            <span x-text="message"></span>
+        </div>
+
+        <div x-data="{checkbox:false}" >
+            <p> model checkbox</p>
+            <input type="checkbox" x-model="checkbox" id="idcheckbox">
+            <label for="idcheckbox" x-text="checkbox"></label>
+        </div>
+
+    </body>
+@end
