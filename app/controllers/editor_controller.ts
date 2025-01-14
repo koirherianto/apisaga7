@@ -1,7 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class EditorController {
-  async index({ auth, inertia, params }: HttpContext) {
+  async index({ auth, view, params }: HttpContext) {
     const currentUser = auth.user!
     // dapatkan data version dari project
     const currentProject = await currentUser
@@ -32,7 +32,17 @@ export default class EditorController {
     const topbars = await currentVersion.related('topbars').query()
     const pages = await currentTopbar.related('pages').query()
 
-    return inertia.render('editor', {
+    // return inertia.render('editor', {
+    //   currentProject,
+    //   currentVersion,
+    //   currentTopbar,
+    //   currentPage,
+    //   versions,
+    //   topbars,
+    //   pages,
+    // })
+
+    return view.render('editor/index', {
       currentProject,
       currentVersion,
       currentTopbar,
