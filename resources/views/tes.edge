@@ -236,5 +236,57 @@
             <label for="idcheckbox" x-text="checkbox"></label>
         </div>
 
+
+        {{--  x-model.lazy berjalan ketika cursor sudah tidak fokus ke input  --}}
+        <div x-data="{input:''}">
+            <input type="text" x-model.lazy="input">
+            <span x-show="input.length > 5">Username terlalu panjang</span>
+        </div>
+
+        <div x-data="{umur: 0}">
+            <input type="text" x-model.number="umur">
+            <span x-text="typeof umur"></span>
+        </div>
+
+        <h4>X-FOR</h4>
+
+        <p>perulangan</p>
+        <ul x-data="{colors: ['hijau', 'merah', 'biru']}">
+            <template x-for="color in colors">
+                <li x-text="color"></li>
+            </template>
+        </ul>
+
+        <p>perulangan dengan object</p>
+
+        <ul x-data="{users: {nama:'koir', umur: 24, tinggi:165}}">
+            <template x-for="(value, key) in users">
+                <li><span x-text="key"></span> :<span x-text="value"></span></li>
+            </template>
+        </ul>
+
+        {{--  id cocok untuk reorder  --}}
+        <ul x-data="{ colors: [
+            { id: 1, label: 'Red' },
+            { id: 2, label: 'Orange' },
+            { id: 3, label: 'Yellow' },
+        ]}">
+            <template x-for="color in colors" :key="color.id">
+                <li x-text="color.label"></li>
+            </template>
+        </ul>
+
+        {{--  ini error karna ada 2 element  --}}
+        {{--  tag template hanya jalan dengan 1 element root  --}}
+        {{--  <template x-for="color in colors">
+            <span>The next color is </span><span x-text="color">
+        </template>  --}}
+
+
+        <h4>Effect</h4>
+        <div x-data="{ label: 'Hello' }" x-effect="console.log(label)">
+            <button @click="label += ' World!'">Change Message</button>
+        </div>
+
     </body>
 @end
