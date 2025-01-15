@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +10,40 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
   @if ($slots.meta)
-    {{{ await $slots.meta() }}}
+  {{{ await $slots.meta() }}}
   @endif
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-    {{{ await $slots.main() }}}
 
-    @if($slots.script)
-        {{{ await $slots.script() }}}
-    @end
+<div x-data="editor(
+  {{ js.stringify(currentProject) }},
+  {{ js.stringify(currentVersion) }},
+  {{ js.stringify(currentTopbar) }},
+  {{ js.stringify(currentPage) }},
+  {{ js.stringify(versions) }},
+  {{ js.stringify(topbars) }},
+  {{ js.stringify(pages) }}
+)">
+  {{{ await $slots.main() }}}
+</div>
+
+@if($slots.script)
+{{{ await $slots.script() }}}
+@end
+
+<script>
+  document.addEventListener('alpine:init', function () {
+    Alpine.data('editor', (currentProject, currentVersion, currentTopbar, currentPage, versions, topbars, pages) => ({
+      currentProject: currentProject,
+      currentVersion: currentVersion,
+      currentTopbar: currentTopbar,
+      currentPage: currentPage,
+      versions: versions,
+      topbars: topbars,
+      pages: pages,
+    }))
+  })
+</script>
+
 </html>

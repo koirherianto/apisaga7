@@ -1,4 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
+import { title } from 'process'
 
 export default class EditorController {
   async index({ auth, view, params }: HttpContext) {
@@ -52,8 +53,7 @@ export default class EditorController {
       versions,
       topbars,
       pages,
-      variable3: { a: 'bbbbbbbbbbb' },
-      tttt: 'yyyy',
+      title: 'Editor',
     })
   }
 }
