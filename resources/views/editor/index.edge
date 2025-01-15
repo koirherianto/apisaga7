@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body>
+    
+</body>
+</html>
+
+@let(variable = 'aaaaaaaaa')
+
+<div x-data="{aaa:'{{ variable}}'}">
+    <h1 x-text="aaa"></h1>
+</div>
+
+@let(variable2 = '{"a":"aaaaaaaaa"}')
+
+<div x-data="{ aaa: JSON.parse('{{ variable2 }}') }">
+    <h2 x-text="aaa.a"></h2>
+</div>
+
+<div x-data="{ aaa: {{ js.stringify(variable3) }} }">
+    <h3 x-text="aaa.a"></h3>
+</div>
+
+<div x-data="{ aaa: {{ js.stringify(currentProject) }} }">
+    <h4 x-text="aaa.id"></h4>
+</div>
+<p>a</p>
+
+
+
+{{--  <div x-data="dropdown" x-init="$nextTick(() => { coy = 'lol' })">
+    <span x-text="coy"></span>
+</div>
+
+ 
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('dropdown', () => ({
+            coy: '',
+            init() {
+                // $nextTick(() => { this.coy = 'dsvsdgvd' });
+                this.coy = {{ js.stringify(variable3) }}
+            },
+        }))
+    })
+</script>  --}}
+
+<div x-data="project({{ js.stringify(currentProject) }}, {{ js.stringify(currentProject) }})">
+    <span x-text="currentProject.id"></span>
+    <br>
+    <span x-text="currentProject2.id"></span>
+</div>
+
+<script>
+    document.addEventListener('alpine:init', function () {
+      Alpine.data('project', (currentProject, currentProject2) => ({
+        currentProject: currentProject,
+        currentProject2: currentProject2,
+      }))
+    })
+  </script>
+
+{{--  {{ console.log( JSON.stringify({a: 'bbbbbbbbbbf'}) ) }}
+{{ console.log(js.stringify(variable3)  ) }}
+{{ console.log(variable2) }}
+{{ console.log(variable3) }}  --}}

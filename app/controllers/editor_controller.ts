@@ -42,6 +42,8 @@ export default class EditorController {
     //   pages,
     // })
 
+    // console.log(currentProject)
+
     return view.render('editor/index', {
       currentProject,
       currentVersion,
@@ -50,6 +52,8 @@ export default class EditorController {
       versions,
       topbars,
       pages,
+      variable3: { a: 'bbbbbbbbbbb' },
+      tttt: 'yyyy',
     })
   }
 }

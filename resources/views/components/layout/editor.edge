@@ -6,16 +6,17 @@
 
   <title>{{ title || "Your default title" }}</title>
 
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
   @if ($slots.meta)
     {{{ await $slots.meta() }}}
   @endif
 
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-  {{{ await $slots.main() }}}
-  <script>
+    {{{ await $slots.main() }}}
+
     @if($slots.script)
-      {{{ await $slots.script() }}}
+        {{{ await $slots.script() }}}
     @end
-  </script>
 </html>
