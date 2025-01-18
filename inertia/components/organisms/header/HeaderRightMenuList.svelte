@@ -16,14 +16,19 @@
 
 	import type { Version } from '~/types/version'
 	import type { Language } from '~/types/language'
-	import { versionStore } from '~/stores/version'
+	import { versionStore, currentVersionStore } from '~/stores/version'
 	import { languagesStore } from '~/stores/language'
 
 	let versions: Version[] = [];
+	let currentVersion: Version;
 	let languages: Language[] = [];
 
 	const unsubscribeVersion = versionStore.subscribe((data) => {
 		versions = data;
+	});
+
+	const unsubcribeCurrentVersion = currentVersionStore.subscribe((data) => {
+		currentVersion = data;
 	});
 
 	const unsubscribeLanguages = languagesStore.subscribe((data) => {
@@ -44,6 +49,7 @@
 	onDestroy(() => {
 		sortableInstance?.destroy();
 		unsubscribeVersion();
+		unsubcribeCurrentVersion();
 		unsubscribeLanguages();
 	});
 
@@ -97,7 +103,7 @@
 			<!-- Trigger button -->
 			<svelte:fragment slot="trigger" let:toggleDropdown>
 				<button on:click={toggleDropdown} class="text-black text-base font-medium flex items-center gap-1 not-sortable">
-					<span>{versions[0].name}</span>
+					<span>{currentVersion.name}</span>
 					<AngleDownIcon classList="!size-5" />
 				</button>
 			</svelte:fragment>

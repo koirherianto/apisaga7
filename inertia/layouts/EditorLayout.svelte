@@ -38,7 +38,7 @@
   import { onMount } from 'svelte'
   // new
   import { topbarStore } from '~/stores/topbar';
-  import { versionStore } from '~/stores/version';
+  import { versionStore, currentVersionStore } from '~/stores/version';
   import { languagesStore } from '~/stores/language';
   import { postStore } from '~/stores/post_data';
 
@@ -60,6 +60,8 @@
   versionStore.set(data.versions)
   languagesStore.set(data.languages)
   postStore.set(data.pages);
+
+  currentVersionStore.set(currentVersion)
 
   onMount(() => {
     if (window.matchMedia('(min-width: 1024px)').matches) {
