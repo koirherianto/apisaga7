@@ -41,7 +41,7 @@ router.group(() => {
         // router.resource('topbar', TopbarController).as('topbar')
         // router.resource('page', PageController).as('page')
     }).prefix('u')
-
+    
 }).middleware(middleware.auth())
 
  // jika url tidak lengkap arahkan page default

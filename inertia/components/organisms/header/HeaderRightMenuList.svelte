@@ -62,7 +62,19 @@
         const { name, slug } = event.detail;
         console.log('Name:', name, 'Slug:', slug);
 
-        // Lakukan logika seperti memanggil API atau menyimpan data
+        // kirim data ke api post ke endpoint /api/versions
+		fetch('/u/version', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ name, slug })
+		}).then((res) => res.json()).then((data) => {
+			// jika berhasil, tambahkan data ke store
+			versionStore.update((versions) => [...versions, data]);
+		}).catch((err) => {
+			console.error(err);
+		})
     };
 </script>
 

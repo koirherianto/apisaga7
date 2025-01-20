@@ -14,8 +14,13 @@ export default class VersionController {
     const version = project.related('versions').query().where('slug', params.sVersion).first()
   }
 
-  async create({ auth, params, request, response, session }: HttpContext) {
-    const { name, slug, is_default } = await request.validateUsing(createVersionValidator)
+  // async create({}: HttpContext) {
+  //   return 'create version'
+  // }
+
+  // store
+  async store({ auth, params, request, response, session }: HttpContext) {
+    const { name, slug, isDefault } = await request.validateUsing(createVersionValidator)
     const currentUser = auth.user!
 
     // dapatkan data version dari project

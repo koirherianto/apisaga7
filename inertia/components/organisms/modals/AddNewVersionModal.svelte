@@ -5,7 +5,7 @@
     import TextInput from '~/components/atoms/form/TextInput.svelte';
     import ModalHost from '../modal/ModalHost.svelte';
 
-    export let title = 'Add a New Version';
+    export let title = '';
 
     const dispatch = createEventDispatcher();
 
