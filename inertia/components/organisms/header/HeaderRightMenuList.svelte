@@ -68,7 +68,7 @@
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ name, slug })
+			body: JSON.stringify({ name, slug, is_default: false })
 		}).then((res) => res.json()).then((data) => {
 			// jika berhasil, tambahkan data ke store
 			versionStore.update((versions) => [...versions, data]);

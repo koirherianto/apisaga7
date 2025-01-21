@@ -11,6 +11,7 @@ const EditorController = () => import('#controllers/editor_controller')
 const VersionController = () => import('#controllers/version_controller')
 
 import router from '@adonisjs/core/services/router'
+router.resource('version', VersionController).as('version')
 
 router.get('/', [LandingController, 'index'])
 
@@ -37,12 +38,12 @@ router.group(() => {
         router.get(':sProject/:sVersion/:sTopbar/:sPage', [EditorController, 'index']).as('editor.index')
 
         // CRUD version, topbar, page
-        router.resource('version', VersionController).as('version')
         // router.resource('topbar', TopbarController).as('topbar')
         // router.resource('page', PageController).as('page')
     }).prefix('u')
     
 }).middleware(middleware.auth())
+
 
  // jika url tidak lengkap arahkan page default
 router.get(':sProject', [RedirectController, 'project']).as('redirect.project')

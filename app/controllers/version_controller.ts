@@ -1,5 +1,6 @@
 import { createVersionValidator } from '#validators/version'
 import type { HttpContext } from '@adonisjs/core/http'
+import { errors } from '@vinejs/vine'
 
 export default class VersionController {
   async index({ view, auth, params }: HttpContext) {
@@ -14,13 +15,24 @@ export default class VersionController {
     const version = project.related('versions').query().where('slug', params.sVersion).first()
   }
 
-  // async create({}: HttpContext) {
-  //   return 'create version'
-  // }
+  async create({}: HttpContext) {
+    return 'create version'
+  }
 
   // store
   async store({ auth, params, request, response, session }: HttpContext) {
-    const { name, slug, isDefault } = await request.validateUsing(createVersionValidator)
+    let data
+    try {
+      data = await request.validateUsing(createVersionValidator)
+    } catch (error) {
+      if (error instanceof errors.E_VALIDATION_ERROR) {
+        return 'a'
+        response.status(422).send(error.messages)
+      }
+      // Tangkap error validasi dan kirimkan sebagai respons API
+      return response.badRequest({ message: 'Validation failed', errors: error.messages })
+    }
+
     const currentUser = auth.user!
 
     // dapatkan data version dari project
@@ -52,5 +64,9 @@ export default class VersionController {
     })
 
     return response.redirect().toRoute('editor.index')
+  }
+
+  async delete() {
+    return 'delete version'
   }
 }
