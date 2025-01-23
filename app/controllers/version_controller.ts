@@ -35,7 +35,7 @@ export default class VersionController {
 
     const currentUser = auth.user!
 
-    // dapatkan data version dari project
+    // dapatkan data version dari project.
     const currentProject = await currentUser
       .related('projects')
       .query()
