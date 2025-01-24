@@ -42,7 +42,7 @@ export default class VersionController {
       .where('slug', params.sProject)
       .firstOrFail()
 
-    // apakah user ini memiliki nama version yang sama
+    // apakah user ini memiliki nama version yang sama.
     const isVersionExist = await currentProject
       .related('versions')
       .query()
