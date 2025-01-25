@@ -21,9 +21,9 @@ export default class VersionController {
 
   // store
   async store({ auth, params, request, response, session }: HttpContext) {
-    let data
+    let validate
     try {
-      data = await request.validateUsing(createVersionValidator)
+      validate = await request.validateUsing(createVersionValidator)
     } catch (error) {
       if (error instanceof errors.E_VALIDATION_ERROR) {
         return response.status(422).send({
@@ -46,11 +46,13 @@ export default class VersionController {
       .where('slug', params.sProject)
       .firstOrFail()
 
+    return currentProject
+
     // apakah user ini memiliki nama version yang sama.
     const isVersionExist = await currentProject
       .related('versions')
       .query()
-      .where('slug', slug)
+      .where('slug', validate.slug)
       .first()
 
     if (isVersionExist) {
@@ -61,13 +63,16 @@ export default class VersionController {
       return response.redirect().back()
     }
 
-    await currentProject.related('versions').create({
-      name,
-      slug,
-      isDefault: is_default,
+    const newVersion = await currentProject.related('versions').create({
+      name: validate.name,
+      slug: validate.slug,
+      isDefault: validate.is_default,
     })
 
-    return response.redirect().toRoute('editor.index')
+    return response.status(201).send({
+      message: 'Version created',
+      data: newVersion,
+    })
   }
 
   async delete() {

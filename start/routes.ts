@@ -11,14 +11,13 @@ const EditorController = () => import('#controllers/editor_controller')
 const VersionController = () => import('#controllers/version_controller')
 
 import router from '@adonisjs/core/services/router'
-router.resource('version', VersionController).as('version')
 
 router.get('/', [LandingController, 'index'])
 
 router.group(() => {
     router.get('/register', [AuthController, 'registerView']).as('register')
     router.post('/register', [AuthController, 'register']).as('register.store')
-
+    
     router.get('/login', [AuthController, 'loginView']).as('login')
     router.post('/login', [AuthController, 'login']).as('login.store')
 }).middleware(middleware.guest())
@@ -30,7 +29,7 @@ router.group(() => {
         // untuk user bisa mengedit data diri
         router.get('/profile', [ProfileController, 'index']).as('profile.index')
         router.put('/profile', [ProfileController, 'update']).as('profile.update')
-
+        
         // untuk user bisa mengorganisir project nya sendiri
         router.resource('dashboard', DashboardController).as('dashboard')
 
@@ -42,6 +41,7 @@ router.group(() => {
         // router.resource('page', PageController).as('page')
     }).prefix('u')
     
+    router.resource('version', VersionController).as('version')
 }).middleware(middleware.auth())
 
 
