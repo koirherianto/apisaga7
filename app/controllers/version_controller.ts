@@ -26,11 +26,15 @@ export default class VersionController {
       data = await request.validateUsing(createVersionValidator)
     } catch (error) {
       if (error instanceof errors.E_VALIDATION_ERROR) {
-        return 'a'
-        response.status(422).send(error.messages)
+        return response.status(422).send({
+          message: 'Validation failed',
+          errors: this.formatValidationErrors(error.messages),
+        })
       }
-      // Tangkap error validasi dan kirimkan sebagai respons API
-      return response.badRequest({ message: 'Validation failed', errors: error.messages })
+      return response.badRequest({
+        message: 'Validation failed',
+        errors: this.formatValidationErrors(error.messages),
+      })
     }
 
     const currentUser = auth.user!
@@ -68,5 +72,16 @@ export default class VersionController {
 
   async delete() {
     return 'delete version'
+  }
+
+  formatValidationErrors(messages) {
+    if (!Array.isArray(messages)) {
+      return {}
+    }
+
+    return messages.reduce((acc, err) => {
+      acc[err.field] = err.message
+      return acc
+    }, {})
   }
 }
