@@ -76,7 +76,7 @@ export default class VersionController {
   }
 
   async delete() {
-    return 'delete version'
+    return 'delete version.'
   }
 
   formatValidationErrors(messages) {
