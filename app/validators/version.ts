@@ -1,4 +1,5 @@
 import vine from '@vinejs/vine'
+import { existRule } from './rules/exist.js'
 
 export const createVersionValidator = vine.compile(
   vine.object({
@@ -9,5 +10,23 @@ export const createVersionValidator = vine.compile(
       allowDashes: true,
     }),
     is_default: vine.boolean(),
+    project_id: vine.string(),
+  })
+)
+
+export const deleteVersionValidator = vine.compile(
+  vine.object({
+    params: vine.object({
+      id: vine
+        .string()
+        .trim()
+        .uuid({ version: [4] })
+        .use(existRule({ table: 'versions', column: 'id' })),
+    }),
+    project_id: vine
+      .string()
+      .trim()
+      .uuid({ version: [4] })
+      .use(existRule({ table: 'projects', column: 'id' })),
   })
 )

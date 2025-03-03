@@ -4,6 +4,7 @@
 	import ModalHost from '../modal/ModalHost.svelte';
 	export let text = '';
 	export let subText = '';
+	export let id;
 	const dispatch = createEventDispatcher();
 </script>
 
@@ -23,7 +24,7 @@
 				<div class="flex gap-2">
 					<Button
 						on:click={() => {
-							dispatch('confirm', toggle);
+							dispatch('confirm', { id, onSuccess: toggle });
 						}}
 						variant="secondary"
 						classList="mt-4">Delete</Button

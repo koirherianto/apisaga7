@@ -16,11 +16,14 @@
 
 	import type { Version } from '~/types/version'
 	import type { Language } from '~/types/language'
+	import type { Project } from '~/types/projects'
 	import { versionStore, currentVersionStore } from '~/stores/version'
+	import { currentProjectStore } from '~/stores/project'
 	import { languagesStore } from '~/stores/language'
 
 	let versions: Version[] = [];
 	let currentVersion: Version;
+	let currentProject: Project;
 	let languages: Language[] = [];
 
 	const unsubscribeVersion = versionStore.subscribe((data) => {
@@ -29,6 +32,10 @@
 
 	const unsubcribeCurrentVersion = currentVersionStore.subscribe((data) => {
 		currentVersion = data;
+	});
+
+	const unsubscribeCurrentProject = currentProjectStore.subscribe((data) => {
+		currentProject = data;
 	});
 
 	const unsubscribeLanguages = languagesStore.subscribe((data) => {
@@ -51,16 +58,38 @@
 		unsubscribeVersion();
 		unsubcribeCurrentVersion();
 		unsubscribeLanguages();
+		unsubscribeCurrentProject();
 	});
 
-	const confirmDeleting = (e: CustomEvent<() => void>) => {
-		console.log('do deleting');
-		e.detail(); // toggle modal
+	const confirmDeleting = (e: CustomEvent<{ id: number, onSuccess: () => void }>) => {
+		const { id, onSuccess } = e.detail;
+
+		fetch(`/u/version/${id}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ project_id : currentProject.id })
+		})
+		.then((res) => {
+			if (!res.ok) {
+				throw new Error(`Gagal menghapus versi dengan status ${res.status}`);
+			}
+			return res.json();
+		})
+		.then((data) => {
+			versionStore.update((versions) => versions.filter((version) => version.id !== data.data.id));
+			alert('Versi berhasil dihapus.');
+			onSuccess(); 
+		})
+		.catch((err) => {
+			alert('Gagal menghapus versi: ' + err.message);
+		});
 	};
+
 
 	const handleNewVersionSubmit = (event: CustomEvent<{ name: string; slug: string }>) => {
         const { name, slug } = event.detail;
-        console.log('Name:', name, 'Slug:', slug);
 
         // kirim data ke api post ke endpoint /api/versions
 		fetch('/u/version', {
@@ -68,12 +97,21 @@
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ name, slug, is_default: false })
-		}).then((res) => res.json()).then((data) => {
-			// jika berhasil, tambahkan data ke store
-			versionStore.update((versions) => [...versions, data]);
-		}).catch((err) => {
-			console.error(err);
+			body: JSON.stringify({ name, slug, is_default: false, project_id: currentProject.id })
+		})
+		.then((res) => {
+			return res.json();  // Lanjutkan ke JSON parsing jika perlu
+		})
+		.then((data) => {
+			if (data.data) {
+				versionStore.update((versions) => [...versions, data.data]);
+				alert('Berhasil menambahkan versi baru');
+			}else{
+				alert(data.errors);
+			}
+		})
+		.catch((err) => {
+			alert('Gagal menambahkan versi baru' + err);
 		})
     };
 </script>
@@ -140,7 +178,8 @@
 								<DeleteConfirm
 									text="Are you sure you want to delete this version?"
 									subText="This action cannot be undone."
-									on:confirm={confirmDeleting}
+									id={version.id}
+									on:confirm={(e) => confirmDeleting(e)}
 								>
 									<svelte:fragment slot="trigger" let:toggle>
 										<button class="" on:click={toggle}>

@@ -39,6 +39,7 @@
   // new
   import { topbarStore } from '~/stores/topbar';
   import { versionStore, currentVersionStore } from '~/stores/version';
+  import { currentProjectStore } from '~/stores/project';
   import { languagesStore } from '~/stores/language';
   import { postStore } from '~/stores/post_data';
 
@@ -62,6 +63,7 @@
   postStore.set(data.pages);
 
   currentVersionStore.set(currentVersion)
+  currentProjectStore.set(currentProject)
 
   onMount(() => {
     if (window.matchMedia('(min-width: 1024px)').matches) {

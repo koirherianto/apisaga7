@@ -39,9 +39,9 @@ router.group(() => {
         // CRUD version, topbar, page
         // router.resource('topbar', TopbarController).as('topbar')
         // router.resource('page', PageController).as('page')/
+        router.resource('version', VersionController).as('version')
     }).prefix('u')
     
-    router.resource('version', VersionController).as('version')
 }).middleware(middleware.auth())
  // jika url tidak lengkap arahkan page default
 router.get(':sProject', [RedirectController, 'project']).as('redirect.project')
