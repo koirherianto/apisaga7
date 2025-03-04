@@ -73,17 +73,17 @@
 		})
 		.then((res) => {
 			if (!res.ok) {
-				throw new Error(`Gagal menghapus versi dengan status ${res.status}`);
+				throw new Error(`Failed to delete version: ${res.statusText}`);
 			}
 			return res.json();
 		})
 		.then((data) => {
 			versionStore.update((versions) => versions.filter((version) => version.id !== data.data.id));
-			alert('Versi berhasil dihapus.');
+			alert('Successfully deleted version');
 			onSuccess(); 
 		})
 		.catch((err) => {
-			alert('Gagal menghapus versi: ' + err.message);
+			alert('Failed to delete version' + err.message);
 		});
 	};
 
@@ -105,7 +105,7 @@
 		.then((data) => {
 			if (data.data) {
 				versionStore.update((versions) => [...versions, data.data]);
-				alert('Berhasil menambahkan versi baru');
+				alert('Successfully added new version');
 			}else{
 				alert(data.errors);
 			}
@@ -114,6 +114,34 @@
 			alert('Gagal menambahkan versi baru' + err);
 		})
     };
+
+	const handleUpdateVersionSubmit = (event: CustomEvent<{ name: string; slug: string, id: string }>) => {
+		const { name, slug, id } = event.detail;
+		console.log(name, slug, id);
+		fetch(`/u/version/${id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ name, slug, project_id: currentProject.id })
+		})
+		.then((res) => {
+			return res.json();
+		})
+		.then((data) => {
+			if (data.data) {
+				versionStore.update((versions) => versions.map((version) => {
+					if (version.id === data.data.id) {
+						return data.data;
+					}
+					return version;
+				}));
+				alert('Successfully updated version');
+			}else{
+				alert(data.errors);
+			}
+		})
+	};
 </script>
 
 <ul class="flex items-center gap-4">
@@ -168,7 +196,7 @@
 							</a>
 							<!-- Right icon for editable menu -->
 							<div class="hidden group-hover:flex items-center justify-center gap-1">
-								<AddNewVersionModal title="Edit version">
+								<AddNewVersionModal title="Edit version" name={version.name} slug={version.slug} id={version.id} on:submit={handleUpdateVersionSubmit}>
 									<svelte:fragment slot="trigger" let:toggle>
 										<button class="" on:click={toggle}>
 											<PenIcon classList="!size-5 fill-current" />

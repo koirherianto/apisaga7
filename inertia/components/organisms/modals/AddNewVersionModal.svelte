@@ -9,11 +9,12 @@
 
     const dispatch = createEventDispatcher();
 
-    let name = '';
-    let slug = '';
+    export let name = '';
+    export let slug = '';
+    export let id = ''; // untuk edit version
 
     const handleSubmit = () => {
-        dispatch('submit', { name, slug }); // Kirim data ke parent
+        dispatch('submit', { name, slug, id });
     };
 </script>
 
