@@ -6,6 +6,7 @@ const AuthController = () => import('#controllers/auth_controller')
 const DashboardController = () => import('#controllers/dashboard_controller')
 const ProfileController = () => import('#controllers/profile_controllers')
 const RedirectController = () => import('#controllers/redirect_controller')
+const RedirectEditorController = () => import('#controllers/redirect_editor_controller')
 const PageController = () => import('#controllers/page_controller')
 const EditorController = () => import('#controllers/editor_controller')
 const VersionController = () => import('#controllers/version_controller')
@@ -40,6 +41,10 @@ router.group(() => {
         // router.resource('topbar', TopbarController).as('topbar')
         // router.resource('page', PageController).as('page')/
         router.resource('version', VersionController).as('version')
+
+        // jika url tidak lengkap arahkan page default
+        router.get(':sProject', [RedirectEditorController, 'project']).as('redirect.editor.project')
+        router.get(':sProject/:sVersion', [RedirectEditorController, 'version']).as('redirect.editor.version')
     }).prefix('u')
     
 }).middleware(middleware.auth())

@@ -191,7 +191,7 @@
 				<div bind:this={versionSortableMenu} class="mt-1">
 					{#each versions as version}
 						<div bind:this={versionSortableMenu} class="flex mb-2 items-center group hover:bg-gray-50 rounded-md px-4 py-1 cursor-pointer">
-							<a class="text-base flex-1 flex items-center text-nowrap" href="/#">
+							<a class="text-base flex-1 flex items-center text-nowrap" href="/u/{currentProject.slug}/{version.slug}">
 								{version.name}
 							</a>
 							<!-- Right icon for editable menu -->

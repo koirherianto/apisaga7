@@ -20,7 +20,7 @@
         <span>|</span>
 
         @if(auth.isAuthenticated)
-          <a href="{{ route('projects.index') }}" class="bg-[#059669] hover:bg-[#047857] focus:ring ring-[#047857] text-white px-6 py-2 rounded-lg">
+          <a href="{{ route('dashboard.index') }}" class="bg-[#059669] hover:bg-[#047857] focus:ring ring-[#047857] text-white px-6 py-2 rounded-lg">
             Dashboard
           </a>
           <button onclick="handleLogout(); return false;" class="text-[#1F2937]">logout</button>
@@ -34,7 +34,7 @@
       <!-- Hamburger Menu Button untuk layar tablet dan ponsel -->
       <div class="flex md:hidden items-center gap-x-4">
         @if(auth.isAuthenticated)
-          <a href="{{ route('projects.index') }}" class="bg-[#059669] hover:bg-[#047857] focus:ring ring-[#047857] text-white px-6 py-3 rounded-lg w-full">
+          <a href="{{ route('dashboard.index') }}" class="bg-[#059669] hover:bg-[#047857] focus:ring ring-[#047857] text-white px-6 py-3 rounded-lg w-full">
             Dashboard
           </a>
         @else
@@ -77,7 +77,7 @@
 
   <!-- Jumbotron -->
   <section id="" class="flex flex-col justify-center items-center mx-auto max-w-full md:max-w-[80%] my-20">
-    <a href="{{ auth.isAuthenticated ? route('projects.index') : route('register') }}">
+    <a href="{{ auth.isAuthenticated ? route('dashboard.index') : route('register') }}">
       <div class="flex flex-nowrap w-fit bg-[#FAFAFA] border border-[#E5E7EB] rounded-full px-2 py-2 mr-4">
         <div class="flex justify-center items-center">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"
@@ -107,7 +107,7 @@
       <span class="inline sm:block">let us handle the docs.</span>
     </p>
     <div class="flex justify-center mt-10">
-      <a href="{{ auth.isAuthenticated ? route('projects.index') : route('register') }}"
+      <a href="{{ auth.isAuthenticated ? route('dashboard.index') : route('register') }}"
         class="bg-[#059669] hover:bg-[#047857] focus:ring ring-[#047857] text-white px-6 py-2 sm:px-8 sm:py-3 md:px-10 md:py-4 rounded-lg">
         Get Started For Free
       </a>
@@ -316,7 +316,7 @@
       </span>
     </p>
     <div class="mt-5 pb-10">
-      <a href="{{ auth.isAuthenticated ? route('projects.index') : route('register') }}"
+      <a href="{{ auth.isAuthenticated ? route('dashboard.index') : route('register') }}"
         class="bg-[#059669] hover:bg-[#047857] focus:ring ring-[#047857] text-white border border-[##047857] px-10 py-4 rounded-xl shadow-md"
         type="submit">Register for Free
     </a>
