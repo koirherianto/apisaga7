@@ -28,7 +28,7 @@ export default class EditorController {
       .where('slug', params.sPage)
       .firstOrFail()
 
-    const versions = await currentProject.related('versions').query()
+    const versions = await currentProject.related('versions').query().orderBy('urutan', 'asc')
     const topbars = await currentVersion.related('topbars').query()
     const pages = await currentTopbar.related('pages').query()
 

@@ -27,6 +27,9 @@ export default class Version extends BaseModel {
   @column()
   declare visibility: string
 
+  @column()
+  declare urutan: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

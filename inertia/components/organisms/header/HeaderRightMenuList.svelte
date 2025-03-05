@@ -28,6 +28,8 @@
 
 	const unsubscribeVersion = versionStore.subscribe((data) => {
 		versions = data;
+
+		console.log('versions', versions);
 	});
 
 	const unsubcribeCurrentVersion = currentVersionStore.subscribe((data) => {
@@ -46,12 +48,52 @@
 
 	let sortableInstance: Sortable;
 
+	$: versions = $versionStore;
+
 	onMount(() => {
 		sortableInstance = Sortable.create(versionSortableMenu, {
 			animation: 150,
-			filter: '.not-sortable'
+			filter: '.not-sortable',
+			onEnd: (event) => {
+				console.log("Event Item ID:", event.item.dataset.id);
+				console.log("Old Versions:", versions.map(v => v.id));
+
+				const oldIndex = versions.findIndex(v => String(v.id) === event.item.dataset.id);
+				const newIndex = event.newIndex;
+
+				if (oldIndex === newIndex || oldIndex === -1) {
+					console.warn("Invalid index detected!");
+					return;
+				}
+
+				const item = versions[oldIndex];
+				const newVersions = [...versions];
+
+				newVersions.splice(oldIndex, 1);
+				newVersions.splice(newIndex!, 0, item);
+				console.log("New Versions:", newVersions.map(v => v.id));
+				fetch(`/u/version/reorder`, {
+					method: 'PUT',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ 
+						versions: newVersions.map(v => v.id),
+						project_id: currentProject.id
+					})
+				}).then(res => res.json())
+				.then(data => {
+					if (data.data) {
+						versionStore.set(newVersions);
+						alert('Successfully reordered version');
+					} else {
+						alert(data.errors);
+					}
+				}).catch(err => {
+					alert('Failed to reorder version: ' + err.message);
+				});
+			}
 		});
 	});
+
 
 	onDestroy(() => {
 		sortableInstance?.destroy();
@@ -189,8 +231,8 @@
 			<svelte:fragment slot="menu">
 				<div class="px-4 text-base pb-1 not-sortable font-medium">Versions</div>
 				<div bind:this={versionSortableMenu} class="mt-1">
-					{#each versions as version}
-						<div bind:this={versionSortableMenu} class="flex mb-2 items-center group hover:bg-gray-50 rounded-md px-4 py-1 cursor-pointer">
+					{#each versions as version (version.id)}
+						<div bind:this={versionSortableMenu} data-id={version.id} class="flex mb-2 items-center group hover:bg-gray-50 rounded-md px-4 py-1 cursor-pointer">
 							<a class="text-base flex-1 flex items-center text-nowrap" href="/u/{currentProject.slug}/{version.slug}">
 								{version.name}
 							</a>

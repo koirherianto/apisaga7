@@ -40,6 +40,7 @@ router.group(() => {
         // CRUD version, topbar, page
         // router.resource('topbar', TopbarController).as('topbar')
         // router.resource('page', PageController).as('page')/
+        router.put('version/reorder', [VersionController, 'reorder']).as('version.reorder')
         router.resource('version', VersionController).as('version')
 
         // jika url tidak lengkap arahkan page default

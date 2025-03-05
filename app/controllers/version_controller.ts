@@ -2,6 +2,7 @@ import {
   createVersionValidator,
   updateVersionValidator,
   deleteVersionValidator,
+  reorderVersionValidator,
 } from '#validators/version'
 import type { HttpContext } from '@adonisjs/core/http'
 import { errors } from '@vinejs/vine'
@@ -189,6 +190,43 @@ export default class VersionController {
       data: currnetVersion,
     })
 
+  }
+
+  async reorder({auth, request, response}:HttpContext){
+    const currentUser = auth.user!
+    
+    // console.log('validate')
+    const validate = await request.validateUsing(reorderVersionValidator)
+    
+
+    const currentProject = await currentUser
+      .related('projects')
+      .query()
+      .where('id', validate.project_id)
+      .first()
+
+    if (!currentProject) {
+      return response.status(404).send({
+        message: 'Project not found / you dont have access to this project',
+      })
+    }
+
+    const versions = validate.versions
+
+    console.log('beVersion',versions)
+    
+    for (const [i, version] of versions.entries()) {
+      await currentProject
+        .related('versions')
+        .query()
+        .where('id', version)
+        .update({ urutan: i })
+    }
+
+    return response.status(200).send({
+      data: versions,
+      message: 'Version reordered',
+    })
   }
 
   formatValidationErrors(messages: any) {

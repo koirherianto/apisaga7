@@ -54,3 +54,22 @@ export const deleteVersionValidator = vine.compile(
       .use(existRule({ table: 'projects', column: 'id' })),
   })
 )
+
+export const reorderVersionValidator = vine.compile(
+  vine.object({
+    project_id: vine
+      .string()
+      .trim()
+      .uuid({ version: [4] })
+      .use(existRule({ table: 'projects', column: 'id' })),
+    versions: vine
+      .array(
+        vine
+          .string()
+          .trim()
+          .uuid({ version: [4] })
+          .use(existRule({ table: 'versions', column: 'id' }))
+      )
+      .minLength(2),
+  })
+)
