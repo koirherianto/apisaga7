@@ -42,7 +42,9 @@ export default class Page extends BaseModel {
   @beforeCreate()
   static async assignUuid(page: Page) {
     page.id = crypto.randomUUID()
-    page.slug = string.slug(page.name, { lower: true })
+    // if (!page.$dirty.slug) {
+    //   page.slug = string.slug(page.name, { lower: true })
+    // }
   }
 
   @beforeUpdate()

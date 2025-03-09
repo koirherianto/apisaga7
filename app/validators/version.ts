@@ -1,10 +1,9 @@
 import vine from '@vinejs/vine'
 import { existRule } from './rules/exist.js'
-import { notExistRule } from './rules/not_exist.js'
 
 export const createVersionValidator = vine.compile(
   vine.object({
-    name: vine.string().trim().minLength(4).maxLength(100),
+    name: vine.string().trim().minLength(1).maxLength(100),
     slug: vine.string().trim().minLength(1).maxLength(100).alpha({
       allowSpaces: false,
       allowUnderscores: false,
@@ -12,6 +11,11 @@ export const createVersionValidator = vine.compile(
     }),
     is_default: vine.boolean(),
     project_id: vine.string(),
+    current_version_id: vine
+      .string()
+      .trim()
+      .uuid({ version: [4] })
+      .use(existRule({ table: 'versions', column: 'id' })),
   })
 )
 
@@ -24,7 +28,7 @@ export const updateVersionValidator = vine.compile(
         .uuid({ version: [4] })
         .use(existRule({ table: 'versions', column: 'id' })),
     }),
-    name: vine.string().trim().minLength(4).maxLength(100),
+    name: vine.string().trim().minLength(1).maxLength(100),
     slug: vine.string().trim().minLength(1).maxLength(100).alpha({
       allowSpaces: false,
       allowUnderscores: false,

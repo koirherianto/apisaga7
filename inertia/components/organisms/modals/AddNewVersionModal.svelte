@@ -4,6 +4,7 @@
     import Button from '~/components/atoms/button/Button.svelte';
     import TextInput from '~/components/atoms/form/TextInput.svelte';
     import ModalHost from '../modal/ModalHost.svelte';
+  import SelectInput from '~/components/atoms/form/SelectInput.svelte'
 
     export let title = '';
 
@@ -27,6 +28,7 @@
         <div class="bg-white rounded-lg overflow-hidden lg:w-[447px] mx-auto">
             <ModalHeader on:toggle={toggle} {title} />
             <div class="py-6 px-6">
+                <!-- <SelectInput options={pages} classList="mb-4" placeholder="Select a page" /> -->
                 <TextInput bind:value={name} classList="mb-4" label="Name" placeholder="Enter the page name" />
                 <TextInput bind:value={slug} classList="" label="Slug" placeholder="Enter the page slug" />
                 <Button on:click={() => { handleSubmit(); toggle(); }} classList="mt-4" size="large">Save Changes</Button>

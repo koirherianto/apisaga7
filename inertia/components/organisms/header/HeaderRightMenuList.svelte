@@ -17,19 +17,24 @@
 	import type { Version } from '~/types/version'
 	import type { Language } from '~/types/language'
 	import type { Project } from '~/types/projects'
+	import type { Topbar } from '~/types/topbar'
 	import { versionStore, currentVersionStore } from '~/stores/version'
+	import { currentTobarStore } from '~/stores/topbar'
 	import { currentProjectStore } from '~/stores/project'
 	import { languagesStore } from '~/stores/language'
 
 	let versions: Version[] = [];
 	let currentVersion: Version;
 	let currentProject: Project;
+	let currentTopbar: Topbar
 	let languages: Language[] = [];
+
+	const unsubcribeCurrentTopbar = currentTobarStore.subscribe((data) => {
+		currentTopbar = data;
+	});
 
 	const unsubscribeVersion = versionStore.subscribe((data) => {
 		versions = data;
-
-		console.log('versions', versions);
 	});
 
 	const unsubcribeCurrentVersion = currentVersionStore.subscribe((data) => {
@@ -55,9 +60,6 @@
 			animation: 150,
 			filter: '.not-sortable',
 			onEnd: (event) => {
-				console.log("Event Item ID:", event.item.dataset.id);
-				console.log("Old Versions:", versions.map(v => v.id));
-
 				const oldIndex = versions.findIndex(v => String(v.id) === event.item.dataset.id);
 				const newIndex = event.newIndex;
 
@@ -71,7 +73,6 @@
 
 				newVersions.splice(oldIndex, 1);
 				newVersions.splice(newIndex!, 0, item);
-				console.log("New Versions:", newVersions.map(v => v.id));
 				fetch(`/u/version/reorder`, {
 					method: 'PUT',
 					headers: { 'Content-Type': 'application/json' },
@@ -101,6 +102,7 @@
 		unsubcribeCurrentVersion();
 		unsubscribeLanguages();
 		unsubscribeCurrentProject();
+		unsubcribeCurrentTopbar();
 	});
 
 	const confirmDeleting = (e: CustomEvent<{ id: number, onSuccess: () => void }>) => {
@@ -113,18 +115,17 @@
 			},
 			body: JSON.stringify({ project_id : currentProject.id })
 		})
-		.then((res) => {
-			if (!res.ok) {
-				throw new Error(`Failed to delete version: ${res.statusText}`);
+		.then((res) => res.json()).then((data) => {
+			if (data.data) {
+				versionStore.update((versions) => versions.filter((version) => version.id !== data.data.id));
+				alert(data.message);
+				onSuccess(); 
+			} else if (data.message) {
+				alert(data.message);
+			}else{
+				alert(data.errors);
 			}
-			return res.json();
-		})
-		.then((data) => {
-			versionStore.update((versions) => versions.filter((version) => version.id !== data.data.id));
-			alert('Successfully deleted version');
-			onSuccess(); 
-		})
-		.catch((err) => {
+		}).catch((err) => {
 			alert('Failed to delete version' + err.message);
 		});
 	};
@@ -139,20 +140,18 @@
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ name, slug, is_default: false, project_id: currentProject.id })
+			body: JSON.stringify({ name, slug, is_default: false, current_version_id: currentVersion.id, project_id: currentProject.id, })
 		})
-		.then((res) => {
-			return res.json();  // Lanjutkan ke JSON parsing jika perlu
-		})
-		.then((data) => {
+		.then((res) => res.json()).then((data) => {
 			if (data.data) {
 				versionStore.update((versions) => [...versions, data.data]);
-				alert('Successfully added new version');
-			}else{
+				alert(data.message);
+			}else if(data.message){
+				alert(data.message);
+			}else {
 				alert(data.errors);
 			}
-		})
-		.catch((err) => {
+		}).catch((err) => {
 			alert('Gagal menambahkan versi baru' + err);
 		})
     };
@@ -233,7 +232,7 @@
 				<div bind:this={versionSortableMenu} class="mt-1">
 					{#each versions as version (version.id)}
 						<div bind:this={versionSortableMenu} data-id={version.id} class="flex mb-2 items-center group hover:bg-gray-50 rounded-md px-4 py-1 cursor-pointer">
-							<a class="text-base flex-1 flex items-center text-nowrap" href="/u/{currentProject.slug}/{version.slug}">
+							<a class="text-base flex-1 flex items-center text-nowrap" href="/u/{currentProject.slug}/{version.slug}/{currentTopbar.slug}">
 								{version.name}
 							</a>
 							<!-- Right icon for editable menu -->

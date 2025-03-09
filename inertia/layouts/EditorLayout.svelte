@@ -37,7 +37,7 @@
 
   import { onMount } from 'svelte'
   // new
-  import { topbarStore } from '~/stores/topbar';
+  import { topbarStore, currentTobarStore } from '~/stores/topbar';
   import { versionStore, currentVersionStore } from '~/stores/version';
   import { currentProjectStore } from '~/stores/project';
   import { languagesStore } from '~/stores/language';
@@ -62,6 +62,7 @@
   languagesStore.set(data.languages)
   postStore.set(data.pages);
 
+  currentTobarStore.set(currentTopbar)
   currentVersionStore.set(currentVersion)
   currentProjectStore.set(currentProject)
 
