@@ -120,13 +120,13 @@
 				versionStore.update((versions) => versions.filter((version) => version.id !== data.data.id));
 				alert(data.message);
 				onSuccess(); 
-			} else if (data.message) {
-				alert(data.message);
-			}else{
+			} else if (data.errors) {
 				alert(data.errors);
+			}else{
+				alert('Failed to delete version');
 			}
 		}).catch((err) => {
-			alert('Failed to delete version' + err.message);
+			alert('Failed to delete version ' + err.message);
 		});
 	};
 
@@ -146,13 +146,13 @@
 			if (data.data) {
 				versionStore.update((versions) => [...versions, data.data]);
 				alert(data.message);
-			}else if(data.message){
-				alert(data.message);
-			}else {
+			}else if(data.errors){
 				alert(data.errors);
+			}else {
+				alert('Failed to add new version');
 			}
 		}).catch((err) => {
-			alert('Gagal menambahkan versi baru' + err);
+			alert('Failed to add new version ' + err.message);	
 		})
     };
 
@@ -166,10 +166,7 @@
 			},
 			body: JSON.stringify({ name, slug, project_id: currentProject.id })
 		})
-		.then((res) => {
-			return res.json();
-		})
-		.then((data) => {
+		.then((res) => res.json()).then((data) => {
 			if (data.data) {
 				versionStore.update((versions) => versions.map((version) => {
 					if (version.id === data.data.id) {
@@ -177,11 +174,15 @@
 					}
 					return version;
 				}));
-				alert('Successfully updated version');
-			}else{
+				alert(data.message);
+			}else if(data.errors){
 				alert(data.errors);
+			}else{
+				alert('Failed to update version');
 			}
-		})
+		}).catch((err) => {
+			alert('Failed to update version ' + err.message);
+		});
 	};
 </script>
 

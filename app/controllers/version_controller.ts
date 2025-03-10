@@ -116,7 +116,7 @@ export default class VersionController {
         }
 
         return response.status(201).send({
-          message: 'New Version Created',
+          message: 'New Version created',
           data: newVersion,
         })
       } catch (error) {
@@ -163,9 +163,9 @@ export default class VersionController {
       })
     }
 
-    const currnetVersion = await currentProject.related('versions').query().where('id', validate.params.id).first()
+    const currentVersion = await currentProject.related('versions').query().where('id', validate.params.id).first()
 
-    if (!currnetVersion) {
+    if (!currentVersion) {
       return response.status(404).send({
         message: 'Version not found / you dont have access to this version',
       })
@@ -185,14 +185,14 @@ export default class VersionController {
       })
     }
 
-    currnetVersion.name = validate.name
-    currnetVersion.slug = validate.slug
+    currentVersion.name = validate.name
+    currentVersion.slug = validate.slug
 
-    await currnetVersion.save()
+    await currentVersion.save()
 
     return response.status(200).send({
       message: 'Version updated',
-      data: currnetVersion,
+      data: currentVersion,
     })
 
   }
@@ -277,7 +277,6 @@ export default class VersionController {
         })
       }
     })
-
   }
 
   async reorder({ auth, request, response }: HttpContext) {
