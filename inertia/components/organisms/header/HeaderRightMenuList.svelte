@@ -18,16 +18,24 @@
 	import type { Language } from '~/types/language'
 	import type { Project } from '~/types/projects'
 	import type { Topbar } from '~/types/topbar'
+	import type { Post } from '~/types/post' 
 	import { versionStore, currentVersionStore } from '~/stores/version'
 	import { currentTobarStore } from '~/stores/topbar'
 	import { currentProjectStore } from '~/stores/project'
+	import { currentPageStore } from '~/stores/post_data';
 	import { languagesStore } from '~/stores/language'
+  import type { Menu } from '~/types/menu'
 
 	let versions: Version[] = [];
 	let currentVersion: Version;
 	let currentProject: Project;
 	let currentTopbar: Topbar
+	let currentPage: Post | Menu;
 	let languages: Language[] = [];
+
+	const unsubscribeCurrentPageStore = currentPageStore.subscribe((data) => {
+		currentPage = data;
+	});
 
 	const unsubcribeCurrentTopbar = currentTobarStore.subscribe((data) => {
 		currentTopbar = data;
@@ -103,6 +111,7 @@
 		unsubscribeLanguages();
 		unsubscribeCurrentProject();
 		unsubcribeCurrentTopbar();
+		unsubscribeCurrentPageStore();
 	});
 
 	const confirmDeleting = (e: CustomEvent<{ id: number, onSuccess: () => void }>) => {
@@ -233,7 +242,7 @@
 				<div bind:this={versionSortableMenu} class="mt-1">
 					{#each versions as version (version.id)}
 						<div bind:this={versionSortableMenu} data-id={version.id} class="flex mb-2 items-center group hover:bg-gray-50 rounded-md px-4 py-1 cursor-pointer">
-							<a class="text-base flex-1 flex items-center text-nowrap" href="/u/{currentProject.slug}/{version.slug}/{currentTopbar.slug}">
+							<a class="text-base flex-1 flex items-center text-nowrap" href="/u/{currentProject.slug}/{version.slug}/{currentTopbar.slug}/{currentPage.slug}">
 								{version.name}
 							</a>
 							<!-- Right icon for editable menu -->

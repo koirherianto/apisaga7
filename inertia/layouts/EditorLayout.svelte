@@ -41,7 +41,7 @@
   import { versionStore, currentVersionStore } from '~/stores/version';
   import { currentProjectStore } from '~/stores/project';
   import { languagesStore } from '~/stores/language';
-  import { postStore } from '~/stores/post_data';
+  import { postStore,currentPageStore } from '~/stores/post_data';
 
   let sidebarOpen: boolean = false
   let mobileNavOpen: boolean = false
@@ -65,6 +65,7 @@
   currentTobarStore.set(currentTopbar)
   currentVersionStore.set(currentVersion)
   currentProjectStore.set(currentProject)
+  currentPageStore.set(currentPage)
 
   onMount(() => {
     if (window.matchMedia('(min-width: 1024px)').matches) {
