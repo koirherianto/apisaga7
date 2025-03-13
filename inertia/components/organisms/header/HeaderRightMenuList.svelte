@@ -24,7 +24,7 @@
 	import { currentProjectStore } from '~/stores/project'
 	import { currentPageStore } from '~/stores/post_data';
 	import { languagesStore } from '~/stores/language'
-  import type { Menu } from '~/types/menu'
+  	import type { Menu } from '~/types/menu'
 
 	let versions: Version[] = [];
 	let currentVersion: Version;
@@ -140,8 +140,8 @@
 	};
 
 
-	const handleNewVersionSubmit = (event: CustomEvent<{ name: string; slug: string }>) => {
-        const { name, slug } = event.detail;
+	const handleNewVersionSubmit = (event: CustomEvent<{ name: string; slug: string; selectedVersionId: string }>) => {
+        const { name, slug, selectedVersionId } = event.detail;
 
         // kirim data ke api post ke endpoint /api/versions
 		fetch('/u/version', {
@@ -149,7 +149,13 @@
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ name, slug, is_default: false, current_version_id: currentVersion.id, project_id: currentProject.id, })
+			body: JSON.stringify({ 
+				name, slug, 
+				is_default: false, 
+				current_version_id: currentVersion.id, 
+				current_project_id: currentProject.id,
+				duplicate_version_id: selectedVersionId
+			})
 		})
 		.then((res) => res.json()).then((data) => {
 			if (data.data) {
@@ -270,17 +276,22 @@
 						</div>
 					{/each}
 				</div>
-				<!-- {#if $isEditor} -->
-					<div class="flex justify-center not-sortable">
-						<AddNewVersionModal title="Add a New Version." on:submit={handleNewVersionSubmit}>
-							<svelte:fragment slot="trigger" let:toggle>
-								<button on:click={toggle}>
-									<PlusIcon classList="fill-green-500 size-5" />
-								</button>
-							</svelte:fragment>
-						</AddNewVersionModal>
-					</div>
-				<!-- {/if} -->
+				<div class="flex justify-center not-sortable">
+					<AddNewVersionModal 
+						title="Add a New Version." 
+						on:submit={handleNewVersionSubmit} 
+						versions={versions.map(v => ({
+							label: v.name,
+							value: v.id
+						}))}
+					>
+						<svelte:fragment slot="trigger" let:toggle>
+							<button on:click={toggle}>
+								<PlusIcon classList="fill-green-500 size-5" />
+							</button>
+						</svelte:fragment>
+					</AddNewVersionModal>
+				</div>
 			</svelte:fragment>
 		</DropdownMenu>
 	</li>

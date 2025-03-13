@@ -7,23 +7,19 @@
     import SelectInput from '~/components/atoms/form/SelectInput.svelte'
 
     export let title = '';
-
-    const dispatch = createEventDispatcher();
-
     export let name = '';
     export let slug = '';
-    export let id = ''; // untuk edit version
-
-    export let isCreate = false;
-
-    export let versions: {label: string, value: string}[] = [
-		// { label: 'Installation', value: '1' },
-		// { label: 'Getting Started', value: '2' },
-		// { label: 'Guide', value: '3' }
-	];
-
+    export let id = ''; //Id Version // untuk edit version
+    
+    let selectedVersionId = ''; // Untuk Menyimpan ID Version yang dipilih untuk duplicate
+    export let versions: {label: string, value: string}[] = [];
+    
+    // jika versions ada isinya, maka ini adalah create
+    let isCreate = versions.length !== 0;
+    
+    const dispatch = createEventDispatcher();
     const handleSubmit = () => {
-        dispatch('submit', { name, slug, id });
+        dispatch('submit', { name, slug, id, selectedVersionId });
     };
 </script>
 
@@ -36,8 +32,14 @@
         <div class="bg-white rounded-lg overflow-hidden lg:w-[447px] mx-auto">
             <ModalHeader on:toggle={toggle} {title} />
             <div class="py-6 px-6">
-                {#if !isCreate}
-					<SelectInput classList="mb-4" placeholder="Parent Menu" options={versions} />
+                {#if isCreate}
+					<SelectInput 
+                        options={versions} 
+                        bind:value={selectedVersionId} 
+                        useCancelOption={false} 
+                        classList="mb-4" 
+                        placeholder="Copy from version" 
+                    />
 				{/if}
                 <TextInput bind:value={name} classList="mb-4" label="Name" placeholder="Enter the page name" />
                 <TextInput bind:value={slug} classList="" label="Slug" placeholder="Enter the page slug" />

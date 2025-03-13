@@ -10,8 +10,13 @@ export const createVersionValidator = vine.compile(
       allowDashes: true,
     }),
     is_default: vine.boolean(),
-    project_id: vine.string(),
+    current_project_id: vine.string(),
     current_version_id: vine
+      .string()
+      .trim()
+      .uuid({ version: [4] })
+      .use(existRule({ table: 'versions', column: 'id' })),
+    duplicate_version_id: vine
       .string()
       .trim()
       .uuid({ version: [4] })

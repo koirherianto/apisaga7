@@ -42,7 +42,7 @@ export default class VersionController {
     const currentProject = await currentUser
       .related('projects')
       .query()
-      .where('id', validate.project_id)
+      .where('id', validate.current_project_id)
       .first()
 
     // jika user tidak memiliki akses ke project ini.
